@@ -2,193 +2,414 @@
 <html lang="es">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="theme-color" content="#020b18">
-<title>J.A.R.V.I.S.</title>
+<title>JARVIS 3.0</title>
 
 <style>
-* {
-  box-sizing: border-box;
+*{box-sizing:border-box}
+body{
+ margin:0;
+ min-height:100vh;
+ background:
+ radial-gradient(circle at center,#103c60,#020712 75%);
+ color:#8deaff;
+ font-family:Arial,sans-serif;
+ text-align:center;
+ padding:20px;
 }
-
-body {
-  margin: 0;
-  min-height: 100vh;
-  background: radial-gradient(circle at center, #10365c, #020b18 70%);
-  color: #9eeaff;
-  font-family: Arial, sans-serif;
-  text-align: center;
-  padding: 25px 15px;
+h1{
+ font-size:clamp(30px,8vw,55px);
+ letter-spacing:9px;
+ text-shadow:0 0 25px cyan;
+ margin-bottom:5px;
 }
-
-h1 {
-  font-size: 42px;
-  letter-spacing: 8px;
-  color: #00d9ff;
-  text-shadow: 0 0 25px #00d9ff;
+.status{color:#00ffb3}
+.reactor{
+ width:220px;
+ height:220px;
+ margin:30px auto;
+ border:3px solid cyan;
+ border-radius:50%;
+ display:grid;
+ place-items:center;
+ box-shadow:0 0 35px #00cfff;
+ animation:spin 12s linear infinite;
+ position:relative;
 }
-
-.status {
-  color: #00ffae;
-  letter-spacing: 4px;
+.reactor:before{
+ content:"";
+ position:absolute;
+ inset:15px;
+ border:3px dashed #00aaff;
+ border-radius:50%;
 }
-
-.reactor {
-  width: 190px;
-  height: 190px;
-  margin: 30px auto;
-  border: 5px solid #00d9ff;
-  border-radius: 50%;
-  box-shadow:
-    0 0 25px #00d9ff,
-    inset 0 0 35px #00d9ff;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  animation: pulse 3s infinite;
+.core{
+ width:110px;
+ height:110px;
+ border-radius:50%;
+ background:radial-gradient(circle,#bfffff,#0088cc);
+ box-shadow:0 0 55px cyan;
+ animation:pulse 2s infinite alternate;
 }
-
-.core {
-  width: 95px;
-  height: 95px;
-  border-radius: 50%;
-  background: #00d9ff;
-  box-shadow: 0 0 45px #00d9ff;
+@keyframes spin{
+ to{transform:rotate(360deg)}
 }
-
-@keyframes pulse {
-  50% {
-    box-shadow:
-      0 0 55px #00d9ff,
-      inset 0 0 55px #00d9ff;
-  }
+@keyframes pulse{
+ to{box-shadow:0 0 90px cyan}
 }
-
-.panel {
-  max-width: 550px;
-  margin: auto;
-  padding: 20px;
-  border: 1px solid #00d9ff;
-  border-radius: 15px;
-  background: rgba(0, 20, 40, 0.85);
+.panel{
+ max-width:650px;
+ margin:auto;
+ padding:20px;
+ border:1px solid #00bfff;
+ border-radius:18px;
+ background:#031728dd;
+ box-shadow:0 0 20px #005577;
 }
-
-input {
-  width: 100%;
-  padding: 15px;
-  font-size: 17px;
-  border-radius: 10px;
-  border: 1px solid #00d9ff;
-  background: #061727;
-  color: white;
+.apps{
+ display:grid;
+ grid-template-columns:repeat(3,1fr);
+ gap:10px;
+ margin:20px 0;
 }
-
-button {
-  padding: 14px;
-  margin-top: 12px;
-  width: 100%;
-  background: #00d9ff;
-  color: #00111c;
-  border: none;
-  border-radius: 10px;
-  font-size: 17px;
-  font-weight: bold;
-  cursor: pointer;
+button{
+ border:1px solid #00dfff;
+ background:#07324a;
+ color:white;
+ padding:15px 5px;
+ border-radius:12px;
+ font-size:15px;
+ cursor:pointer;
 }
-
-button:active {
-  background: white;
+button:active{
+ background:#00aaff;
 }
-
-#respuesta {
-  margin-top: 20px;
-  min-height: 70px;
-  line-height: 1.6;
-  color: white;
+.main{
+ width:100%;
+ background:#00cfff;
+ color:#001522;
+ font-weight:bold;
+ margin:8px 0;
 }
-
-.small {
-  font-size: 13px;
-  opacity: 0.7;
-  margin-top: 20px;
+input{
+ width:100%;
+ padding:14px;
+ border:1px solid cyan;
+ border-radius:10px;
+ background:#061625;
+ color:white;
+ font-size:16px;
 }
+#respuesta{
+ min-height:75px;
+ padding:15px;
+ color:white;
+ line-height:1.5;
+}
+small{color:#67aabb}
 </style>
 </head>
 
 <body>
 
 <h1>J.A.R.V.I.S.</h1>
-<p class="status">● ONLINE</p>
-<p>ASISTENTE PERSONAL</p>
+<p class="status" id="estado">● SISTEMA ONLINE</p>
+<p>INTELIGENCIA PERSONAL • MARK III</p>
 
 <div class="reactor">
-  <div class="core"></div>
+ <div class="core"></div>
 </div>
 
 <div class="panel">
 
-  <p>¿En qué puedo ayudarte?</p>
+<h3>HOLOGRAPHIC CONTROL CENTER</h3>
 
-  <input
-    id="comando"
-    type="text"
-    placeholder="Escribe o dicta una orden..."
-    autocomplete="off"
-  >
+<div class="apps">
+<button onclick="abrir('https://mail.google.com')">
+📧 Gmail
+</button>
 
-  <button onclick="ejecutar()">
-    ⚡ EJECUTAR ORDEN
-  </button>
+<button onclick="abrir('https://web.whatsapp.com')">
+💬 WhatsApp
+</button>
 
-  <button onclick="saludar()">
-    🔊 ESCUCHAR A JARVIS
-  </button>
+<button onclick="abrir('https://youtube.com')">
+▶️ YouTube
+</button>
 
-  <button onclick="detenerVoz()">
-    🔇 DETENER VOZ
-  </button>
+<button onclick="abrir('https://google.com')">
+🌐 Google
+</button>
 
-  <div id="respuesta">
-    Sistema iniciado. Esperando instrucciones.
-  </div>
+<button onclick="abrir('https://roblox.com')">
+🎮 Roblox
+</button>
+
+<button onclick="abrir('https://maps.google.com')">
+🗺️ Maps
+</button>
+</div>
+
+<button class="main" onclick="iniciar()">
+🎙️ ACTIVAR JARVIS
+</button>
+
+<button class="main" onclick="detener()">
+⏹️ DETENER ESCUCHA
+</button>
+
+<input id="texto"
+ placeholder="Escribe una orden si lo necesitas">
+
+<button class="main" onclick="ejecutarTexto()">
+⚡ EJECUTAR ORDEN
+</button>
+
+<div id="respuesta">
+JARVIS: Sistema preparado.
+</div>
+
+<small>
+VOICE SYSTEM • ESPAÑOL / ENGLISH
+</small>
 
 </div>
 
-<p class="small">
-JARVIS SYSTEM • VERSION 2.0
-</p>
-
 <script>
+const pantalla=document.getElementById("respuesta");
+const estado=document.getElementById("estado");
+const entrada=document.getElementById("texto");
 
-const entrada = document.getElementById("comando");
-const pantalla = document.getElementById("respuesta");
+const SpeechRecognition=
+ window.SpeechRecognition||
+ window.webkitSpeechRecognition;
 
-function hablar(texto) {
-  if (!("speechSynthesis" in window)) {
-    return;
-  }
+let reconocimiento=null;
+let activo=false;
+let hablando=false;
+let idioma="es-MX";
 
+function mostrar(t){
+ pantalla.textContent="JARVIS: "+t;
+}
+
+function hablar(t,lang=idioma){
+ mostrar(t);
+
+ if(!("speechSynthesis" in window))return;
+
+ speechSynthesis.cancel();
+
+ const voz=new SpeechSynthesisUtterance(t);
+ voz.lang=lang;
+ voz.rate=0.95;
+ voz.pitch=0.85;
+
+ hablando=true;
+
+ voz.onend=()=>{
+  hablando=false;
+ };
+
+ voz.onerror=()=>{
+  hablando=false;
+ };
+
+ speechSynthesis.speak(voz);
+}
+
+function abrir(url){
+ hablar(
+ idioma==="en-US"?
+ "Opening now, sir.":
+ "Abriendo ahora, señor."
+ );
+
+ setTimeout(()=>{
+  window.location.href=url;
+ },700);
+}
+
+function iniciar(){
+ if(!SpeechRecognition){
+  mostrar(
+   "El reconocimiento de voz no está disponible en este navegador. Puedes escribir órdenes."
+  );
+  return;
+ }
+
+ if(reconocimiento){
+  reconocimiento.stop();
+ }
+
+ reconocimiento=new SpeechRecognition();
+
+ reconocimiento.lang=idioma;
+ reconocimiento.continuous=false;
+ reconocimiento.interimResults=false;
+
+ activo=true;
+
+ reconocimiento.onstart=()=>{
+  estado.textContent="● ESCUCHANDO";
+ };
+
+ reconocimiento.onresult=(event)=>{
+  const orden=event.results[0][0].transcript;
+  procesar(orden);
+ };
+
+ reconocimiento.onerror=(event)=>{
+  estado.textContent="● ERROR DE MICRÓFONO";
+  mostrar(
+   "No pude escuchar. Error: "+event.error
+  );
+  activo=false;
+ };
+
+ reconocimiento.onend=()=>{
+  activo=false;
+  estado.textContent="● SISTEMA ONLINE";
+ };
+
+ try{
+  reconocimiento.start();
+ }catch(e){
+  mostrar("No se pudo iniciar el micrófono.");
+ }
+}
+
+function detener(){
+ activo=false;
+
+ if(reconocimiento){
+  reconocimiento.stop();
+ }
+
+ if("speechSynthesis" in window){
   speechSynthesis.cancel();
+ }
 
-  const voz = new SpeechSynthesisUtterance(texto);
-
-  voz.lang = "es-MX";
-  voz.rate = 0.95;
-  voz.pitch = 0.85;
-
-  speechSynthesis.speak(voz);
+ estado.textContent="● SISTEMA EN ESPERA";
+ mostrar("Sistema en espera.");
 }
 
-function responder(texto) {
-  pantalla.textContent = "JARVIS: " + texto;
-  hablar(texto);
+function ejecutarTexto(){
+ const orden=entrada.value.trim();
+
+ if(!orden){
+  mostrar("Escribe una orden.");
+  return;
+ }
+
+ entrada.value="";
+ procesar(orden);
 }
 
-function detenerVoz() {
-  if ("speechSynthesis" in window) {
-    speechSynthesis.cancel();
+function procesar(orden){
+ const t=orden.toLowerCase();
+
+ const ingles=
+ /\b(hello|open|what|search|time|date|thank)\b/i.test(t);
+
+ idioma=ingles?"en-US":"es-MX";
+
+ if(t.includes("youtube")){
+  abrir("https://youtube.com");
+ }
+ else if(t.includes("gmail")||t.includes("correo")){
+  abrir("https://mail.google.com");
+ }
+ else if(t.includes("whatsapp")){
+  abrir("https://web.whatsapp.com");
+ }
+ else if(t.includes("roblox")){
+  abrir("https://roblox.com");
+ }
+ else if(t.includes("google")&&
+ !t.includes("busca")){
+  abrir("https://google.com");
+ }
+ else if(t.includes("mapa")||t.includes("maps")){
+  abrir("https://maps.google.com");
+ }
+ else if(t.includes("hora")||t.includes("time")){
+  const hora=new Date().toLocaleTimeString(
+   idioma,{hour:"numeric",minute:"2-digit"}
+  );
+
+  hablar(
+   idioma==="en-US"?
+   "The time is "+hora:
+   "Son las "+hora
+  );
+ }
+ else if(t.includes("fecha")||t.includes("date")){
+  const fecha=new Date().toLocaleDateString(
+   idioma,{dateStyle:"full"}
+  );
+  hablar(fecha);
+ }
+ else if(t.startsWith("busca ")||
+         t.startsWith("search ")){
+  const q=orden.replace(/^(busca|search)\s+/i,"");
+
+  hablar(
+   idioma==="en-US"?
+   "Searching now.":
+   "Buscando ahora."
+  );
+
+  setTimeout(()=>{
+   window.location.href=
+    "https://www.google.com/search?q="+
+    encodeURIComponent(q);
+  },700);
+ }
+ else if(t.includes("hola")||t.includes("hello")){
+  hablar(
+   idioma==="en-US"?
+   "Hello, sir. JARVIS at your service.":
+   "Hola, señor. JARVIS a su servicio."
+  );
+ }
+ else if(t.includes("gracias")||t.includes("thank")){
+  hablar(
+   idioma==="en-US"?
+   "Always at your service.":
+   "Siempre a su servicio."
+  );
+ }
+ else if(t.startsWith("atajo ")){
+  const nombre=orden.slice(6).trim();
+
+  if(!nombre){
+   hablar("Dime el nombre del atajo.");
+   return;
   }
+
+  hablar("Intentando ejecutar el atajo.");
+
+  setTimeout(()=>{
+   window.location.href=
+    "shortcuts://run-shortcut?name="+
+    encodeURIComponent(nombre);
+  },800);
+ }
+ else{
+  hablar(
+   idioma==="en-US"?
+   "I heard you, but this command is not configured yet.":
+   "Te escuché, pero todavía no tengo configurada esa orden."
+  );
+ }
 }
 
-function saludar() {
-  responder(
+entrada.addEventListener("keydown",e=>{
+ if(e.key==="Enter")ejecutarTexto();
+});
+</script>
+
+</body>
+</html>
