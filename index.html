@@ -2,270 +2,373 @@
 <html lang="es">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<meta name="theme-color" content="#020b18">
-<title>JARVIS 4.0</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#020b17">
+<title>JARVIS 5.0</title>
 
 <style>
-*{box-sizing:border-box}
-
-body{
-margin:0;
-background:radial-gradient(circle at center,#103b59,#020914 75%);
-color:#bff6ff;
-font-family:Arial,sans-serif;
-min-height:100vh;
+:root {
+  --cyan:#4deaff;
+  --blue:#008dff;
+  --dark:#020b17;
 }
 
-header{
-padding:20px;
-text-align:center;
-border-bottom:1px solid #00cfff;
-box-shadow:0 0 25px #00aaff44;
+* {
+  box-sizing:border-box;
 }
 
-h1{
-color:#5ceaff;
-letter-spacing:8px;
-text-shadow:0 0 20px #00cfff;
-margin:5px;
+body {
+  margin:0;
+  min-height:100vh;
+  background:
+    radial-gradient(ellipse at center,
+    #103b59 0%,
+    #041827 50%,
+    #01050d 100%);
+  color:#bff6ff;
+  font-family:Arial,sans-serif;
 }
 
-.subtitle{
-font-size:11px;
-letter-spacing:3px;
-color:#70b9d1;
+body::before {
+  content:"";
+  position:fixed;
+  inset:0;
+  pointer-events:none;
+  background:repeating-linear-gradient(
+    0deg,
+    transparent 0px,
+    transparent 4px,
+    #00cfff12 5px
+  );
 }
 
-.dashboard{
-display:grid;
-grid-template-columns:1fr 2fr 1fr;
-gap:15px;
-padding:20px;
-max-width:1200px;
-margin:auto;
+header {
+  text-align:center;
+  padding:20px;
+  border-bottom:1px solid var(--cyan);
+  box-shadow:0 0 25px #00bfff33;
 }
 
-.panel{
-background:#061a2ccc;
-border:1px solid #1386ae;
-border-radius:8px;
-padding:15px;
-box-shadow:inset 0 0 25px #00bfff15,0 0 15px #00bfff15;
+h1 {
+  margin:0;
+  font-size:clamp(30px,7vw,55px);
+  letter-spacing:8px;
+  color:var(--cyan);
+  text-shadow:0 0 25px cyan;
 }
 
-.panel h3{
-color:#43dfff;
-font-size:12px;
-letter-spacing:2px;
-border-bottom:1px solid #155b7b;
-padding-bottom:10px;
+.subtitle {
+  margin-top:10px;
+  font-size:11px;
+  letter-spacing:3px;
+  color:#78bed3;
 }
 
-.info{
-padding:12px 0;
-border-bottom:1px solid #17465e;
-font-size:12px;
+.dashboard {
+  max-width:1300px;
+  margin:20px auto;
+  padding:0 12px;
+  display:grid;
+  grid-template-columns:1fr 2fr 1fr;
+  gap:15px;
 }
 
-.info span{
-float:right;
-color:#36ffda;
+.panel {
+  background:linear-gradient(
+    135deg,
+    #06273cdd,
+    #02101fee
+  );
+  border:1px solid #168db4;
+  padding:17px;
+  box-shadow:
+    inset 0 0 25px #00cfff18,
+    0 0 20px #00bfff22;
+  border-radius:5px;
 }
 
-.center{
-display:flex;
-align-items:center;
-justify-content:center;
-flex-direction:column;
-min-height:350px;
-position:relative;
-overflow:hidden;
+.panel h3 {
+  margin:0 0 15px;
+  padding-bottom:10px;
+  border-bottom:1px solid #17607a;
+  color:var(--cyan);
+  font-size:12px;
+  letter-spacing:2px;
 }
 
-.hologram{
-width:270px;
-height:270px;
-border-radius:50%;
-border:2px solid #00cfff;
-display:flex;
-align-items:center;
-justify-content:center;
-position:relative;
-box-shadow:0 0 45px #00aaff55,inset 0 0 35px #00cfff33;
+.info {
+  display:flex;
+  justify-content:space-between;
+  gap:10px;
+  padding:12px 0;
+  border-bottom:1px solid #15455a;
+  font-size:12px;
 }
 
-.hologram:before{
-content:"";
-position:absolute;
-inset:15px;
-border-radius:50%;
-border:8px dashed #34dfff;
-animation:rotate 20s linear infinite;
-filter:drop-shadow(0 0 8px #00dfff);
+.info span {
+  color:#43ffd0;
 }
 
-.hologram:after{
-content:"";
-position:absolute;
-inset:43px;
-border-radius:50%;
-border:3px solid #70f5ff;
-border-left-color:transparent;
-border-right-color:transparent;
-animation:rotate 7s linear infinite reverse;
+.center {
+  min-height:400px;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  position:relative;
+  overflow:hidden;
 }
 
-.reactor{
-width:115px;
-height:115px;
-border-radius:50%;
-background:radial-gradient(circle,#d9ffff,#39dfff 25%,#006b9b 55%,#03182b 75%);
-box-shadow:0 0 30px #00dfff,0 0 70px #008dff;
-display:flex;
-align-items:center;
-justify-content:center;
-z-index:2;
+.center::before {
+  content:"";
+  position:absolute;
+  inset:0;
+  background:
+    linear-gradient(
+      transparent 49%,
+      #00cfff10 50%,
+      transparent 51%
+    ),
+    linear-gradient(
+      90deg,
+      transparent 49%,
+      #00cfff10 50%,
+      transparent 51%
+    );
+  background-size:35px 35px;
 }
 
-.reactor strong{
-color:white;
-font-size:20px;
-letter-spacing:2px;
-text-shadow:0 0 12px #003c66;
+.hud {
+  position:relative;
+  width:300px;
+  height:300px;
+  display:grid;
+  place-items:center;
 }
 
-@keyframes rotate{
-to{transform:rotate(360deg)}
+.ring {
+  position:absolute;
+  border-radius:50%;
+  border:2px solid #31d9ff;
+  box-shadow:
+    0 0 20px #03d8ff66,
+    inset 0 0 20px #03d8ff33;
 }
 
-.status{
-margin-top:25px;
-color:#48e9ff;
-letter-spacing:3px;
-font-size:12px;
-text-align:center;
+.ring1 {
+  inset:0;
+  border-style:dashed;
+  animation:spin 30s linear infinite;
 }
 
-.apps{
-display:grid;
-grid-template-columns:1fr 1fr;
-gap:10px;
+.ring2 {
+  inset:20px;
+  border:9px double #1e91c2;
+  border-left-color:transparent;
+  border-right-color:transparent;
+  animation:spin 15s linear infinite reverse;
 }
 
-.apps a,button{
-background:#073047;
-border:1px solid #159ac6;
-border-radius:5px;
-color:#c8faff;
-padding:12px;
-text-decoration:none;
-font-size:12px;
-cursor:pointer;
-text-align:center;
+.ring3 {
+  inset:48px;
+  border:3px dotted #80f5ff;
+  animation:spin 9s linear infinite;
 }
 
-button:active,.apps a:active{
-background:#137b9e;
+.core {
+  z-index:2;
+  width:145px;
+  height:145px;
+  display:grid;
+  place-items:center;
+  clip-path:polygon(
+    50% 0%,
+    85% 15%,
+    100% 50%,
+    85% 85%,
+    50% 100%,
+    15% 85%,
+    0% 50%,
+    15% 15%
+  );
+  background:radial-gradient(
+    circle,
+    #b5ffff,
+    #16bde9 25%,
+    #064267 65%,
+    #011c34 85%
+  );
+  filter:drop-shadow(0 0 25px cyan);
 }
 
-.chat{
-max-width:1160px;
-margin:0 auto 20px;
+.core strong {
+  color:white;
+  font-size:22px;
+  letter-spacing:3px;
+  text-shadow:0 0 15px #003c66;
 }
 
-#messages{
-height:220px;
-overflow-y:auto;
-background:#020d1a;
-border:1px solid #165f80;
-padding:12px;
-border-radius:5px;
-line-height:1.6;
+@keyframes spin {
+  to {
+    transform:rotate(360deg);
+  }
 }
 
-.message{
-margin-bottom:10px;
-padding:9px;
-background:#09283d;
-border-radius:5px;
-white-space:pre-wrap;
+@keyframes pulse {
+  50% {
+    opacity:.5;
+  }
 }
 
-.user{
-background:#0a4057;
+.status {
+  margin-top:25px;
+  color:#52eaff;
+  font-size:12px;
+  letter-spacing:2px;
+  text-align:center;
+  animation:pulse 3s infinite;
 }
 
-.controls{
-display:flex;
-gap:8px;
-margin-top:10px;
+.spectrum {
+  height:50px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  gap:4px;
 }
 
-input{
-flex:1;
-min-width:0;
-background:#031626;
-color:white;
-border:1px solid #1485ae;
-border-radius:5px;
-padding:12px;
-font-size:16px;
+.spectrum i {
+  width:5px;
+  background:#45dfff;
+  box-shadow:0 0 8px cyan;
+  animation:pulse 1s infinite alternate;
 }
 
-.buttons{
-display:flex;
-gap:10px;
-margin-top:10px;
-flex-wrap:wrap;
+.apps {
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:9px;
 }
 
-.buttons button{
-flex:1;
+.apps a,
+button {
+  display:block;
+  padding:13px 7px;
+  background:#073047;
+  border:1px solid #159ac6;
+  border-radius:5px;
+  color:#c8faff;
+  text-decoration:none;
+  text-align:center;
+  font-size:12px;
+  cursor:pointer;
 }
 
-.note{
-color:#7daebf;
-font-size:12px;
-line-height:1.5;
+button:active,
+.apps a:active {
+  background:#137b9e;
 }
 
-footer{
-text-align:center;
-color:#477b91;
-font-size:10px;
-padding:20px;
-letter-spacing:2px;
+.chat {
+  max-width:1276px;
+  margin:0 auto 20px;
 }
 
-@media(max-width:800px){
-.dashboard{
-grid-template-columns:1fr 1fr;
-gap:10px;
-padding:10px;
-}
-.center{
-grid-column:1/-1;
-grid-row:1;
-}
-.hologram{
-width:240px;
-height:240px;
-}
-.panel{
-padding:11px;
-}
-.apps{
-grid-template-columns:1fr;
-}
-.chat{
-margin:10px;
-}
+#messages {
+  height:200px;
+  overflow-y:auto;
+  padding:12px;
+  background:#020d1a;
+  border:1px solid #165f80;
+  line-height:1.6;
 }
 
-@media(max-width:380px){
-h1{font-size:25px}
-.hologram{width:210px;height:210px}
+.message {
+  margin-bottom:10px;
+  padding:10px;
+  background:#09283d;
+  border-radius:5px;
+  white-space:pre-wrap;
+}
+
+.user {
+  background:#0a4057;
+}
+
+.controls {
+  display:flex;
+  gap:8px;
+  margin-top:10px;
+}
+
+input {
+  flex:1;
+  min-width:0;
+  padding:13px;
+  background:#031626;
+  color:white;
+  border:1px solid #1485ae;
+  border-radius:5px;
+  font-size:16px;
+}
+
+.buttons {
+  display:flex;
+  gap:10px;
+  margin-top:10px;
+}
+
+.buttons button {
+  flex:1;
+}
+
+.note {
+  font-size:12px;
+  color:#8bbdcc;
+  line-height:1.6;
+}
+
+footer {
+  text-align:center;
+  padding:20px;
+  font-size:11px;
+  letter-spacing:2px;
+  color:#477b91;
+}
+
+@media(max-width:800px) {
+  .dashboard {
+    grid-template-columns:1fr 1fr;
+    gap:10px;
+  }
+
+  .center {
+    grid-column:1/-1;
+    grid-row:1;
+  }
+
+  .hud {
+    width:260px;
+    height:260px;
+  }
+
+  .panel {
+    padding:12px;
+  }
+
+  .chat {
+    margin:10px;
+  }
+}
+
+@media(max-width:400px) {
+  .apps {
+    grid-template-columns:1fr;
+  }
+
+  .info {
+    font-size:10px;
+  }
 }
 </style>
 </head>
@@ -273,273 +376,475 @@ h1{font-size:25px}
 <body>
 
 <header>
-<h1>J.A.R.V.I.S.</h1>
-<div class="subtitle">HOLOGRAPHIC INTELLIGENCE SYSTEM · 4.0</div>
+  <h1>J.A.R.V.I.S.</h1>
+  <div class="subtitle">
+    ADVANCED HOLOGRAPHIC COMMAND CENTER
+  </div>
 </header>
 
-<div class="dashboard">
+<main class="dashboard">
 
 <section class="panel">
-<h3>◈ SYSTEM STATUS</h3>
+  <h3>◈ SYSTEM DIAGNOSTICS</h3>
 
-<div class="info">SYSTEM <span>ONLINE</span></div>
-<div class="info">INTERFACE <span>ACTIVE</span></div>
-<div class="info">LANGUAGE <span>ESPAÑOL</span></div>
-<div class="info">VOICE <span>ENABLED</span></div>
-<div class="info">AI ENGINE <span>NOT CONNECTED</span></div>
-<div class="info">TIME <span id="clock">--:--</span></div>
+  <div class="info">
+    CORE <span>ONLINE</span>
+  </div>
 
-<p class="note">
-JARVIS PERSONAL ASSISTANT<br>
-HOLOGRAPHIC CONTROL SYSTEM
-</p>
+  <div class="info">
+    COMMANDS <span>ACTIVE</span>
+  </div>
+
+  <div class="info">
+    LANGUAGE <span>ES-MX</span>
+  </div>
+
+  <div class="info">
+    AI ENGINE <span>OFFLINE</span>
+  </div>
+
+  <div class="info">
+    TIME <span id="clock">--:--</span>
+  </div>
+
+  <div class="info">
+    VOICE <span id="voiceStatus">READY</span>
+  </div>
+
+  <h3 style="margin-top:25px">
+    ◈ AUDIO SIGNAL
+  </h3>
+
+  <div class="spectrum" id="spectrum"></div>
+
+  <p class="note" id="notice">
+    JARVIS preparado para recibir órdenes.
+  </p>
 </section>
 
 <section class="panel center">
 
-<div class="hologram">
-<div class="reactor">
-<strong>JARVIS</strong>
-</div>
-</div>
+  <div class="hud">
+    <div class="ring ring1"></div>
+    <div class="ring ring2"></div>
+    <div class="ring ring3"></div>
 
-<div class="status" id="status">
-● SYSTEM READY
-</div>
+    <div class="core">
+      <strong>JARVIS</strong>
+    </div>
+  </div>
+
+  <div class="status" id="status">
+    ● SYSTEM READY
+  </div>
 
 </section>
 
 <section class="panel">
-<h3>◈ APPLICATIONS</h3>
 
-<div class="apps">
-<a href="https://mail.google.com" target="_blank">✉ GMAIL</a>
-<a href="https://web.whatsapp.com" target="_blank">◉ WHATSAPP</a>
-<a href="https://youtube.com" target="_blank">▶ YOUTUBE</a>
-<a href="https://google.com" target="_blank">⌕ GOOGLE</a>
-<a href="https://roblox.com" target="_blank">◇ ROBLOX</a>
-<a href="https://maps.google.com" target="_blank">⌖ MAPS</a>
-</div>
+  <h3>◈ APPLICATIONS</h3>
+
+  <div class="apps">
+    <a href="https://mail.google.com">
+      ✉ GMAIL
+    </a>
+
+    <a href="https://web.whatsapp.com">
+      ◉ WHATSAPP
+    </a>
+
+    <a href="https://youtube.com">
+      ▶ YOUTUBE
+    </a>
+
+    <a href="https://google.com">
+      ⌕ GOOGLE
+    </a>
+
+    <a href="https://roblox.com">
+      ◇ ROBLOX
+    </a>
+
+    <a href="https://maps.google.com">
+      ⌖ MAPS
+    </a>
+  </div>
+
+  <h3 style="margin-top:25px">
+    ◈ COMMAND DATABASE
+  </h3>
+
+  <p class="note">
+    ABRE ROBLOX<br>
+    ABRE YOUTUBE<br>
+    ABRE GMAIL<br>
+    ABRE WHATSAPP<br>
+    BUSCA MINECRAFT<br>
+    QUÉ HORA ES<br>
+    QUÉ FECHA ES<br>
+    HOLA JARVIS
+  </p>
 
 </section>
-</div>
+
+</main>
 
 <section class="panel chat">
 
 <h3>◈ JARVIS COMMUNICATION SYSTEM</h3>
 
 <div id="messages">
-<div class="message">
-JARVIS: Sistema iniciado. Estoy listo para escucharte.
-</div>
+  <div class="message">
+    JARVIS: Sistemas preparados.
+    Estoy a tus órdenes.
+  </div>
 </div>
 
 <div class="controls">
-<input id="input" placeholder="Habla o escribe algo..." autocomplete="off">
-<button onclick="sendMessage()">ENVIAR</button>
+  <input
+    id="input"
+    placeholder="Habla o escribe una orden..."
+    autocomplete="off"
+  >
+
+  <button onclick="sendMessage()">
+    ENVIAR
+  </button>
 </div>
 
 <div class="buttons">
-<button onclick="startListening()">🎙 HABLAR</button>
-<button onclick="stopVoice()">■ DETENER</button>
-<button onclick="toggleVoice()" id="voiceButton">🔊 VOZ ON</button>
-</div>
 
-<p class="note" id="notice">
-Para conversar libremente con inteligencia artificial necesitarás conectar un servidor de IA.
-</p>
+  <button onclick="startListening()">
+    🎙 HABLAR
+  </button>
+
+  <button onclick="stopVoice()">
+    ■ DETENER
+  </button>
+
+  <button onclick="toggleVoice()" id="voiceButton">
+    🔊 VOZ ON
+  </button>
+
+</div>
 
 </section>
 
 <footer>
-JARVIS 4.0 · FUTURISTIC PERSONAL ASSISTANT
+JARVIS 5.0 · MARK V · PERSONAL ASSISTANT
 </footer>
 
 <script>
-const messages=document.getElementById("messages");
-const input=document.getElementById("input");
-const statusText=document.getElementById("status");
 
-let voiceEnabled=true;
-let recognition=null;
+const messages =
+  document.getElementById("messages");
 
-function updateClock(){
-document.getElementById("clock").textContent=
-new Date().toLocaleTimeString("es-MX",{
-hour:"2-digit",
-minute:"2-digit"
-});
+const input =
+  document.getElementById("input");
+
+const statusText =
+  document.getElementById("status");
+
+let voiceEnabled = true;
+let recognition = null;
+
+function updateClock() {
+  document.getElementById("clock").textContent =
+    new Date().toLocaleTimeString("es-MX", {
+      hour:"2-digit",
+      minute:"2-digit"
+    });
 }
 
 updateClock();
 setInterval(updateClock,30000);
 
-function addMessage(sender,text){
-const div=document.createElement("div");
-div.className="message"+(sender==="TÚ"?" user":"");
-div.textContent=sender+": "+text;
-messages.appendChild(div);
-messages.scrollTop=messages.scrollHeight;
+function addMessage(sender,text) {
+  const div = document.createElement("div");
+
+  div.className =
+    "message" + (sender === "TÚ" ? " user" : "");
+
+  div.textContent = sender + ": " + text;
+
+  messages.appendChild(div);
+  messages.scrollTop = messages.scrollHeight;
 }
 
-function speak(text){
-if(!voiceEnabled)return;
-if(!("speechSynthesis" in window))return;
+function speak(text) {
+  addMessage("JARVIS",text);
 
-speechSynthesis.cancel();
+  if (!voiceEnabled) return;
+  if (!("speechSynthesis" in window)) return;
 
-const speech=new SpeechSynthesisUtterance(text);
-speech.lang="es-MX";
-speech.rate=0.96;
-speech.pitch=1.1;
+  speechSynthesis.cancel();
 
-const voices=speechSynthesis.getVoices();
-const spanish=voices.filter(v=>v.lang.startsWith("es"));
+  const speech =
+    new SpeechSynthesisUtterance(text);
 
-speech.voice=
-spanish.find(v=>/female|paulina|mónica|sofia|paloma/i.test(v.name))
-||spanish[0]
-||null;
+  speech.lang = "es-MX";
+  speech.rate = 0.96;
+  speech.pitch = 1.1;
 
-speech.onstart=()=>{
-statusText.textContent="◉ JARVIS SPEAKING";
-};
+  const voices = speechSynthesis.getVoices();
 
-speech.onend=()=>{
-statusText.textContent="● SYSTEM READY";
-};
+  speech.voice =
+    voices.find(v =>
+      /^es/i.test(v.lang) &&
+      /paulina|monica|mónica|sofia|paloma|female/i
+        .test(v.name)
+    ) ||
+    voices.find(v => /^es/i.test(v.lang)) ||
+    null;
 
-speechSynthesis.speak(speech);
+  speech.onstart = () => {
+    statusText.textContent = "◉ JARVIS SPEAKING";
+  };
+
+  speech.onend = () => {
+    statusText.textContent = "● SYSTEM READY";
+  };
+
+  speechSynthesis.speak(speech);
 }
 
-function getResponse(text){
-const t=text.toLowerCase();
-
-if(t.includes("hola")){
-return "Hola. Soy JARVIS. Estoy aquí para ayudarte.";
+function normalize(text) {
+  return text.toLowerCase()
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g,"")
+    .trim();
 }
 
-if(t.includes("cómo estás")||t.includes("como estas")){
-return "Todos mis sistemas están funcionando correctamente. ¿Y tú cómo estás?";
+function openApp(url,name) {
+  speak("Abriendo " + name + ", señor.");
+
+  setTimeout(() => {
+    window.location.href = url;
+  },700);
 }
 
-if(t.includes("hora")){
-return "Son las "+
-new Date().toLocaleTimeString("es-MX",{
-hour:"numeric",
-minute:"2-digit"
+function processCommand(command) {
+
+  const t = normalize(command);
+
+  addMessage("TÚ",command);
+
+  statusText.textContent = "◌ PROCESSING";
+
+  if (
+    t.startsWith("busca ") ||
+    t.startsWith("buscar ") ||
+    t.startsWith("search ")
+  ) {
+
+    const query = command.replace(
+      /^(busca|buscar|search)\s+/i,
+      ""
+    );
+
+    speak("Buscando " + query);
+
+    setTimeout(() => {
+      window.location.href =
+        "https://www.google.com/search?q=" +
+        encodeURIComponent(query);
+    },700);
+
+    return;
+  }
+
+  if (t.includes("roblox")) {
+    openApp("https://www.roblox.com","Roblox");
+    return;
+  }
+
+  if (t.includes("youtube")) {
+    openApp("https://www.youtube.com","YouTube");
+    return;
+  }
+
+  if (
+    t.includes("gmail") ||
+    t.includes("correo")
+  ) {
+    openApp("https://mail.google.com","Gmail");
+    return;
+  }
+
+  if (t.includes("whatsapp")) {
+    openApp(
+      "https://web.whatsapp.com",
+      "WhatsApp"
+    );
+    return;
+  }
+
+  if (
+    t.includes("maps") ||
+    t.includes("mapas")
+  ) {
+    openApp("https://maps.google.com","Maps");
+    return;
+  }
+
+  if (t.includes("google")) {
+    openApp("https://www.google.com","Google");
+    return;
+  }
+
+  if (t.includes("hora")) {
+    const hora = new Date().toLocaleTimeString(
+      "es-MX",
+      {
+        hour:"numeric",
+        minute:"2-digit"
+      }
+    );
+
+    speak("Son las " + hora);
+    return;
+  }
+
+  if (
+    t.includes("fecha") ||
+    t.includes("que dia")
+  ) {
+    const fecha = new Date().toLocaleDateString(
+      "es-MX",
+      {
+        dateStyle:"full"
+      }
+    );
+
+    speak("Hoy es " + fecha);
+    return;
+  }
+
+  if (t.includes("hola")) {
+    speak(
+      "Hola, señor. JARVIS a su servicio."
+    );
+    return;
+  }
+
+  if (t.includes("gracias")) {
+    speak(
+      "Siempre a su servicio, señor."
+    );
+    return;
+  }
+
+  if (t.startsWith("atajo ")) {
+
+    const nombre = command.slice(6).trim();
+
+    if (!nombre) {
+      speak("Dime el nombre del atajo.");
+      return;
+    }
+
+    speak("Intentando ejecutar el atajo.");
+
+    setTimeout(() => {
+      window.location.href =
+        "shortcuts://run-shortcut?name=" +
+        encodeURIComponent(nombre);
+    },800);
+
+    return;
+  }
+
+  speak(
+    "Te escuché, señor. Todavía no tengo " +
+    "esa respuesta configurada. " +
+    "Puedo abrir aplicaciones, buscar en " +
+    "Google y responder preguntas básicas."
+  );
+}
+
+function sendMessage() {
+
+  const text = input.value.trim();
+
+  if (!text) return;
+
+  input.value = "";
+
+  processCommand(text);
+}
+
+input.addEventListener("keydown",event => {
+  if (event.key === "Enter") {
+    sendMessage();
+  }
 });
-}
 
-if(t.includes("fecha")||t.includes("qué día")){
-return "Hoy es "+
-new Date().toLocaleDateString("es-MX",{
-dateStyle:"full"
-});
-}
+function startListening() {
 
-if(t.includes("quién eres")||t.includes("quien eres")){
-return "Soy JARVIS, tu asistente personal futurista.";
-}
+  const SpeechRecognition =
+    window.SpeechRecognition ||
+    window.webkitSpeechRecognition;
 
-if(t.includes("gracias")){
-return "De nada. Estoy aquí para ayudarte.";
-}
+  if (!SpeechRecognition) {
 
-return "Te escuché decir: "+text+
-". Para responder cualquier pregunta y conversar libremente, necesito conectarme a una inteligencia artificial.";
-}
+    document.getElementById("notice")
+      .textContent =
+      "Safari no permite reconocimiento de voz " +
+      "en este momento. Puedes utilizar " +
+      "el micrófono del teclado del iPad.";
 
-function sendMessage(){
-const text=input.value.trim();
-if(!text)return;
+    return;
+  }
 
-addMessage("TÚ",text);
-input.value="";
+  if (recognition) {
+    try {
+      recognition.abort();
+    } catch(e) {}
+  }
 
-statusText.textContent="◌ PROCESSING";
+  recognition = new SpeechRecognition();
 
-const response=getResponse(text);
+  recognition.lang = "es-MX";
+  recognition.continuous = false;
+  recognition.interimResults = false;
 
-setTimeout(()=>{
-addMessage("JARVIS",response);
-speak(response);
-},350);
-}
+  recognition.onstart = () => {
 
-input.addEventListener("keydown",e=>{
-if(e.key==="Enter")sendMessage();
-});
+    statusText.textContent = "◉ LISTENING";
 
-function startListening(){
-const SpeechRecognition=
-window.SpeechRecognition||
-window.webkitSpeechRecognition;
+    document.getElementById("voiceStatus")
+      .textContent = "LISTENING";
+  };
 
-if(!SpeechRecognition){
-document.getElementById("notice").textContent=
-"Este Safari no permite reconocimiento de voz web. Puedes usar el micrófono del teclado del iPad para dictar.";
-return;
-}
+  recognition.onresult = event => {
 
-if(recognition){
-try{recognition.stop()}catch(e){}
-}
+    const text =
+      event.results[0][0].transcript;
 
-recognition=new SpeechRecognition();
-recognition.lang="es-MX";
-recognition.continuous=false;
-recognition.interimResults=false;
+    processCommand(text);
+  };
 
-recognition.onstart=()=>{
-statusText.textContent="◉ LISTENING";
-};
+  recognition.onerror = event => {
 
-recognition.onresult=event=>{
-const text=event.results[0][0].transcript;
-input.value=text;
-sendMessage();
-};
+    document.getElementById("notice")
+      .textContent =
+      "Error del micrófono: " + event.error;
 
-recognition.onerror=event=>{
-document.getElementById("notice").textContent=
-"No se pudo usar el micrófono: "+event.error;
-statusText.textContent="● SYSTEM READY";
-};
+    statusText.textContent = "● SYSTEM READY";
+  };
 
-recognition.onend=()=>{
-if(statusText.textContent==="◉ LISTENING"){
-statusText.textContent="● SYSTEM READY";
-}
-};
+  recognition.onend = () => {
 
-try{
-recognition.start();
-}catch(e){
-document.getElementById("notice").textContent=
-"No se pudo iniciar el micrófono.";
-}
-}
+    document.getElementById("voiceStatus")
+      .textContent = "READY";
 
-function stopVoice(){
-if("speechSynthesis" in window){
-speechSynthesis.cancel();
-}
-if(recognition){
-try{recognition.stop()}catch(e){}
-}
-statusText.textContent="● SYSTEM READY";
-}
+    if (
+      statusText.textContent === "◉ LISTENING"
+    ) {
+      statusText.textContent = "● SYSTEM READY";
+    }
+  };
 
-function toggleVoice(){
-voiceEnabled=!voiceEnabled;
-
-document.getElementById("voiceButton").textContent=
-voiceEnabled?"🔊 VOZ ON":"🔇 VOZ OFF";
-
-if(!voiceEnabled)stopVoice();
-}
-</script>
-
-</body>
-</html>
+  try {
+    recognition.start();
+  
