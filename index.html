@@ -3,316 +3,269 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<meta name="theme-color" content="#020914">
-<meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="theme-color" content="#020b18">
 <title>JARVIS 4.0</title>
 
 <style>
 *{box-sizing:border-box}
 
-:root{
- --blue:#00dfff;
- --dark:#020914;
- --glass:rgba(3,27,48,.78);
-}
-
 body{
- margin:0;
- min-height:100vh;
- background:
- radial-gradient(ellipse at 50% 35%,#123c60,#020914 75%);
- color:#b6f5ff;
- font-family:Arial,sans-serif;
- overflow-x:hidden;
-}
-
-body:before{
- content:"";
- position:fixed;
- inset:0;
- background-image:
- linear-gradient(#00bfff10 1px,transparent 1px),
- linear-gradient(90deg,#00bfff10 1px,transparent 1px);
- background-size:35px 35px;
- pointer-events:none;
+margin:0;
+background:radial-gradient(circle at center,#103b59,#020914 75%);
+color:#bff6ff;
+font-family:Arial,sans-serif;
+min-height:100vh;
 }
 
 header{
- text-align:center;
- padding:25px 10px 10px;
+padding:20px;
+text-align:center;
+border-bottom:1px solid #00cfff;
+box-shadow:0 0 25px #00aaff44;
 }
 
 h1{
- margin:0;
- font-size:clamp(35px,8vw,65px);
- letter-spacing:9px;
- color:#bdfaff;
- text-shadow:0 0 25px #00dfff;
+color:#5ceaff;
+letter-spacing:8px;
+text-shadow:0 0 20px #00cfff;
+margin:5px;
 }
 
 .subtitle{
- letter-spacing:3px;
- font-size:12px;
- color:#55bfe0;
-}
-
-.status{
- color:#00ffbf;
- margin-top:15px;
- letter-spacing:3px;
- font-size:13px;
+font-size:11px;
+letter-spacing:3px;
+color:#70b9d1;
 }
 
 .dashboard{
- width:min(1100px,96%);
- margin:20px auto;
- display:grid;
- grid-template-columns:1fr 1.5fr 1fr;
- gap:15px;
- align-items:center;
+display:grid;
+grid-template-columns:1fr 2fr 1fr;
+gap:15px;
+padding:20px;
+max-width:1200px;
+margin:auto;
 }
 
 .panel{
- background:var(--glass);
- border:1px solid #00bfff80;
- border-radius:12px;
- padding:15px;
- box-shadow:
- inset 0 0 20px #00bfff15,
- 0 0 15px #00bfff20;
+background:#061a2ccc;
+border:1px solid #1386ae;
+border-radius:8px;
+padding:15px;
+box-shadow:inset 0 0 25px #00bfff15,0 0 15px #00bfff15;
 }
 
 .panel h3{
- font-size:13px;
- letter-spacing:2px;
- color:#00dfff;
- border-bottom:1px solid #00bfff55;
- padding-bottom:10px;
+color:#43dfff;
+font-size:12px;
+letter-spacing:2px;
+border-bottom:1px solid #155b7b;
+padding-bottom:10px;
 }
 
-.data{
- font-size:13px;
- margin:15px 0;
+.info{
+padding:12px 0;
+border-bottom:1px solid #17465e;
+font-size:12px;
 }
 
-.value{
- color:white;
- font-size:19px;
- margin-top:6px;
-}
-
-.bar{
- height:5px;
- background:#07344a;
- border-radius:5px;
- overflow:hidden;
-}
-
-.fill{
- height:100%;
- width:90%;
- background:#00dfff;
- box-shadow:0 0 12px cyan;
+.info span{
+float:right;
+color:#36ffda;
 }
 
 .center{
- text-align:center;
- position:relative;
- min-width:0;
+display:flex;
+align-items:center;
+justify-content:center;
+flex-direction:column;
+min-height:350px;
+position:relative;
+overflow:hidden;
+}
+
+.hologram{
+width:270px;
+height:270px;
+border-radius:50%;
+border:2px solid #00cfff;
+display:flex;
+align-items:center;
+justify-content:center;
+position:relative;
+box-shadow:0 0 45px #00aaff55,inset 0 0 35px #00cfff33;
+}
+
+.hologram:before{
+content:"";
+position:absolute;
+inset:15px;
+border-radius:50%;
+border:8px dashed #34dfff;
+animation:rotate 20s linear infinite;
+filter:drop-shadow(0 0 8px #00dfff);
+}
+
+.hologram:after{
+content:"";
+position:absolute;
+inset:43px;
+border-radius:50%;
+border:3px solid #70f5ff;
+border-left-color:transparent;
+border-right-color:transparent;
+animation:rotate 7s linear infinite reverse;
 }
 
 .reactor{
- width:min(70vw,300px);
- height:min(70vw,300px);
- margin:20px auto;
- position:relative;
- display:grid;
- place-items:center;
+width:115px;
+height:115px;
+border-radius:50%;
+background:radial-gradient(circle,#d9ffff,#39dfff 25%,#006b9b 55%,#03182b 75%);
+box-shadow:0 0 30px #00dfff,0 0 70px #008dff;
+display:flex;
+align-items:center;
+justify-content:center;
+z-index:2;
 }
 
-.ring{
- position:absolute;
- border-radius:50%;
- border:2px solid #00dfff;
- box-shadow:0 0 18px #00cfff;
+.reactor strong{
+color:white;
+font-size:20px;
+letter-spacing:2px;
+text-shadow:0 0 12px #003c66;
 }
 
-.r1{
- inset:0;
- border-style:dashed;
- animation:spin 18s linear infinite;
+@keyframes rotate{
+to{transform:rotate(360deg)}
 }
 
-.r2{
- inset:20px;
- border-width:5px;
- border-left-color:transparent;
- border-right-color:transparent;
- animation:reverse 8s linear infinite;
-}
-
-.r3{
- inset:48px;
- border:2px dotted #9ffaff;
- animation:spin 6s linear infinite;
-}
-
-.r4{
- inset:70px;
- border:5px solid #00aaff;
- border-top-color:transparent;
- animation:reverse 4s linear infinite;
-}
-
-.core{
- width:105px;
- height:105px;
- border-radius:50%;
- background:
- radial-gradient(circle,#dfffff,#00bfff 40%,#004477 75%);
- box-shadow:
- 0 0 35px cyan,
- 0 0 75px #00bfff,
- inset 0 0 25px white;
- animation:pulse 2s ease-in-out infinite alternate;
- display:grid;
- place-items:center;
- color:#00263c;
- font-weight:bold;
- letter-spacing:2px;
- font-size:12px;
- z-index:2;
-}
-
-@keyframes spin{
- to{transform:rotate(360deg)}
-}
-
-@keyframes reverse{
- to{transform:rotate(-360deg)}
-}
-
-@keyframes pulse{
- to{filter:brightness(1.45)}
-}
-
-.scan{
- color:#00dfff;
- font-size:12px;
- letter-spacing:3px;
+.status{
+margin-top:25px;
+color:#48e9ff;
+letter-spacing:3px;
+font-size:12px;
+text-align:center;
 }
 
 .apps{
- display:grid;
- grid-template-columns:repeat(2,minmax(0,1fr));
- gap:10px;
+display:grid;
+grid-template-columns:1fr 1fr;
+gap:10px;
 }
 
-button{
- background:linear-gradient(135deg,#073852,#041b30);
- color:#c6faff;
- border:1px solid #00bfff;
- border-radius:9px;
- padding:14px 8px;
- cursor:pointer;
- font-size:14px;
- min-height:48px;
+.apps a,button{
+background:#073047;
+border:1px solid #159ac6;
+border-radius:5px;
+color:#c8faff;
+padding:12px;
+text-decoration:none;
+font-size:12px;
+cursor:pointer;
+text-align:center;
 }
 
-button:active{
- background:#008ac0;
+button:active,.apps a:active{
+background:#137b9e;
 }
 
-.app{
- min-height:70px;
- font-size:13px;
+.chat{
+max-width:1160px;
+margin:0 auto 20px;
 }
 
-.app span{
- display:block;
- font-size:23px;
- margin-bottom:6px;
+#messages{
+height:220px;
+overflow-y:auto;
+background:#020d1a;
+border:1px solid #165f80;
+padding:12px;
+border-radius:5px;
+line-height:1.6;
 }
 
-.console{
- width:min(900px,96%);
- margin:20px auto 40px;
+.message{
+margin-bottom:10px;
+padding:9px;
+background:#09283d;
+border-radius:5px;
+white-space:pre-wrap;
 }
 
-.console h3{
- text-align:center;
- letter-spacing:3px;
- color:#00dfff;
+.user{
+background:#0a4057;
 }
 
 .controls{
- display:grid;
- grid-template-columns:1fr 1fr;
- gap:10px;
-}
-
-.primary{
- background:#00bfff;
- color:#001522;
- font-weight:bold;
-}
-
-#respuesta{
- background:#020c18;
- border:1px solid #007ca0;
- border-radius:10px;
- padding:20px;
- margin:15px 0;
- min-height:95px;
- line-height:1.6;
- color:white;
+display:flex;
+gap:8px;
+margin-top:10px;
 }
 
 input{
- width:100%;
- background:#031a2a;
- border:1px solid #00bfff;
- color:white;
- padding:15px;
- border-radius:8px;
- font-size:16px;
- margin-bottom:10px;
+flex:1;
+min-width:0;
+background:#031626;
+color:white;
+border:1px solid #1485ae;
+border-radius:5px;
+padding:12px;
+font-size:16px;
 }
 
-.full{
- width:100%;
+.buttons{
+display:flex;
+gap:10px;
+margin-top:10px;
+flex-wrap:wrap;
 }
 
-.clock{
- font-size:24px;
- color:white;
- text-align:center;
+.buttons button{
+flex:1;
+}
+
+.note{
+color:#7daebf;
+font-size:12px;
+line-height:1.5;
 }
 
 footer{
- text-align:center;
- font-size:11px;
- color:#408aa8;
- padding:20px;
- letter-spacing:2px;
+text-align:center;
+color:#477b91;
+font-size:10px;
+padding:20px;
+letter-spacing:2px;
 }
 
 @media(max-width:800px){
- .dashboard{
-  grid-template-columns:1fr;
- }
- .center{
-  grid-row:1;
- }
- .reactor{
-  width:250px;
-  height:250px;
- }
+.dashboard{
+grid-template-columns:1fr 1fr;
+gap:10px;
+padding:10px;
+}
+.center{
+grid-column:1/-1;
+grid-row:1;
+}
+.hologram{
+width:240px;
+height:240px;
+}
+.panel{
+padding:11px;
+}
+.apps{
+grid-template-columns:1fr;
+}
+.chat{
+margin:10px;
+}
 }
 
-@media(prefers-reduced-motion:reduce){
- .ring,.core{animation:none}
+@media(max-width:380px){
+h1{font-size:25px}
+.hologram{width:210px;height:210px}
 }
 </style>
 </head>
@@ -321,229 +274,272 @@ footer{
 
 <header>
 <h1>J.A.R.V.I.S.</h1>
-<div class="subtitle">
-JUST A RATHER VERY INTELLIGENT SYSTEM
-</div>
-<div class="status" id="estado">
-● SYSTEM ONLINE
-</div>
+<div class="subtitle">HOLOGRAPHIC INTELLIGENCE SYSTEM · 4.0</div>
 </header>
 
 <div class="dashboard">
 
 <section class="panel">
-<h3>⚙ SYSTEM DIAGNOSTICS</h3>
+<h3>◈ SYSTEM STATUS</h3>
 
-<div class="data">
-CORE SYSTEM
-<div class="value">OPERATIONAL</div>
-</div>
-<div class="bar"><div class="fill"></div></div>
+<div class="info">SYSTEM <span>ONLINE</span></div>
+<div class="info">INTERFACE <span>ACTIVE</span></div>
+<div class="info">LANGUAGE <span>ESPAÑOL</span></div>
+<div class="info">VOICE <span>ENABLED</span></div>
+<div class="info">AI ENGINE <span>NOT CONNECTED</span></div>
+<div class="info">TIME <span id="clock">--:--</span></div>
 
-<div class="data">
-VOICE INTERFACE
-<div class="value" id="voiceStatus">
-STANDBY
-</div>
-</div>
-<div class="bar"><div class="fill"></div></div>
-
-<div class="data">
-LANGUAGE
-<div class="value">ES / EN</div>
-</div>
-
-<div class="data">
-AI CONNECTION
-<div class="value">NOT CONNECTED</div>
-</div>
-
-<div class="data">
-CURRENT TIME
-<div class="clock" id="reloj">--:--</div>
-</div>
+<p class="note">
+JARVIS PERSONAL ASSISTANT<br>
+HOLOGRAPHIC CONTROL SYSTEM
+</p>
 </section>
 
-<section class="center">
+<section class="panel center">
 
-<div class="scan">
-HOLOGRAPHIC INTERFACE
-</div>
-
+<div class="hologram">
 <div class="reactor">
-<div class="ring r1"></div>
-<div class="ring r2"></div>
-<div class="ring r3"></div>
-<div class="ring r4"></div>
-<div class="core">JARVIS</div>
+<strong>JARVIS</strong>
+</div>
 </div>
 
-<div class="scan" id="actividad">
-AWAITING COMMAND
+<div class="status" id="status">
+● SYSTEM READY
 </div>
 
 </section>
 
 <section class="panel">
-<h3>◈ APPLICATION CONTROL</h3>
+<h3>◈ APPLICATIONS</h3>
 
 <div class="apps">
-
-<button class="app" onclick="abrir('gmail')">
-<span>📧</span>GMAIL
-</button>
-
-<button class="app" onclick="abrir('whatsapp')">
-<span>💬</span>WHATSAPP
-</button>
-
-<button class="app" onclick="abrir('youtube')">
-<span>▶️</span>YOUTUBE
-</button>
-
-<button class="app" onclick="abrir('roblox')">
-<span>🎮</span>ROBLOX
-</button>
-
-<button class="app" onclick="abrir('google')">
-<span>🌐</span>GOOGLE
-</button>
-
-<button class="app" onclick="abrir('maps')">
-<span>🗺️</span>MAPS
-</button>
-
+<a href="https://mail.google.com" target="_blank">✉ GMAIL</a>
+<a href="https://web.whatsapp.com" target="_blank">◉ WHATSAPP</a>
+<a href="https://youtube.com" target="_blank">▶ YOUTUBE</a>
+<a href="https://google.com" target="_blank">⌕ GOOGLE</a>
+<a href="https://roblox.com" target="_blank">◇ ROBLOX</a>
+<a href="https://maps.google.com" target="_blank">⌖ MAPS</a>
 </div>
+
 </section>
-
 </div>
 
-<section class="panel console">
+<section class="panel chat">
 
-<h3>JARVIS COMMAND TERMINAL</h3>
+<h3>◈ JARVIS COMMUNICATION SYSTEM</h3>
 
-<div id="respuesta" aria-live="polite">
-JARVIS: Sistema preparado. Esperando activación.
+<div id="messages">
+<div class="message">
+JARVIS: Sistema iniciado. Estoy listo para escucharte.
+</div>
 </div>
 
 <div class="controls">
-
-<button class="primary" onclick="iniciar()">
-🎙️ ACTIVAR VOZ
-</button>
-
-<button onclick="detener()">
-⏹️ DETENER
-</button>
-
+<input id="input" placeholder="Habla o escribe algo..." autocomplete="off">
+<button onclick="sendMessage()">ENVIAR</button>
 </div>
 
-<p style="text-align:center;font-size:12px">
-VOICE CONTROL • SPANISH / ENGLISH
+<div class="buttons">
+<button onclick="startListening()">🎙 HABLAR</button>
+<button onclick="stopVoice()">■ DETENER</button>
+<button onclick="toggleVoice()" id="voiceButton">🔊 VOZ ON</button>
+</div>
+
+<p class="note" id="notice">
+Para conversar libremente con inteligencia artificial necesitarás conectar un servidor de IA.
 </p>
-
-<input id="entrada"
-placeholder="Escribe una orden si lo necesitas">
-
-<button class="full" onclick="ejecutarTexto()">
-⚡ EJECUTAR ORDEN
-</button>
 
 </section>
 
 <footer>
-STARK INSPIRED INTERFACE • JARVIS MARK IV
+JARVIS 4.0 · FUTURISTIC PERSONAL ASSISTANT
 </footer>
 
 <script>
-const pantalla=document.getElementById("respuesta");
-const estado=document.getElementById("estado");
-const actividad=document.getElementById("actividad");
-const entrada=document.getElementById("entrada");
-const voiceStatus=document.getElementById("voiceStatus");
+const messages=document.getElementById("messages");
+const input=document.getElementById("input");
+const statusText=document.getElementById("status");
 
+let voiceEnabled=true;
+let recognition=null;
+
+function updateClock(){
+document.getElementById("clock").textContent=
+new Date().toLocaleTimeString("es-MX",{
+hour:"2-digit",
+minute:"2-digit"
+});
+}
+
+updateClock();
+setInterval(updateClock,30000);
+
+function addMessage(sender,text){
+const div=document.createElement("div");
+div.className="message"+(sender==="TÚ"?" user":"");
+div.textContent=sender+": "+text;
+messages.appendChild(div);
+messages.scrollTop=messages.scrollHeight;
+}
+
+function speak(text){
+if(!voiceEnabled)return;
+if(!("speechSynthesis" in window))return;
+
+speechSynthesis.cancel();
+
+const speech=new SpeechSynthesisUtterance(text);
+speech.lang="es-MX";
+speech.rate=0.96;
+speech.pitch=1.1;
+
+const voices=speechSynthesis.getVoices();
+const spanish=voices.filter(v=>v.lang.startsWith("es"));
+
+speech.voice=
+spanish.find(v=>/female|paulina|mónica|sofia|paloma/i.test(v.name))
+||spanish[0]
+||null;
+
+speech.onstart=()=>{
+statusText.textContent="◉ JARVIS SPEAKING";
+};
+
+speech.onend=()=>{
+statusText.textContent="● SYSTEM READY";
+};
+
+speechSynthesis.speak(speech);
+}
+
+function getResponse(text){
+const t=text.toLowerCase();
+
+if(t.includes("hola")){
+return "Hola. Soy JARVIS. Estoy aquí para ayudarte.";
+}
+
+if(t.includes("cómo estás")||t.includes("como estas")){
+return "Todos mis sistemas están funcionando correctamente. ¿Y tú cómo estás?";
+}
+
+if(t.includes("hora")){
+return "Son las "+
+new Date().toLocaleTimeString("es-MX",{
+hour:"numeric",
+minute:"2-digit"
+});
+}
+
+if(t.includes("fecha")||t.includes("qué día")){
+return "Hoy es "+
+new Date().toLocaleDateString("es-MX",{
+dateStyle:"full"
+});
+}
+
+if(t.includes("quién eres")||t.includes("quien eres")){
+return "Soy JARVIS, tu asistente personal futurista.";
+}
+
+if(t.includes("gracias")){
+return "De nada. Estoy aquí para ayudarte.";
+}
+
+return "Te escuché decir: "+text+
+". Para responder cualquier pregunta y conversar libremente, necesito conectarme a una inteligencia artificial.";
+}
+
+function sendMessage(){
+const text=input.value.trim();
+if(!text)return;
+
+addMessage("TÚ",text);
+input.value="";
+
+statusText.textContent="◌ PROCESSING";
+
+const response=getResponse(text);
+
+setTimeout(()=>{
+addMessage("JARVIS",response);
+speak(response);
+},350);
+}
+
+input.addEventListener("keydown",e=>{
+if(e.key==="Enter")sendMessage();
+});
+
+function startListening(){
 const SpeechRecognition=
 window.SpeechRecognition||
 window.webkitSpeechRecognition;
 
-let recognition=null;
-let activo=false;
-let hablando=false;
-let idioma="es-MX";
-let timerReinicio=null;
-let timerNavegacion=null;
+if(!SpeechRecognition){
+document.getElementById("notice").textContent=
+"Este Safari no permite reconocimiento de voz web. Puedes usar el micrófono del teclado del iPad para dictar.";
+return;
+}
 
-const sitios={
- gmail:"https://mail.google.com",
- whatsapp:"https://web.whatsapp.com",
- youtube:"https://youtube.com",
- roblox:"https://roblox.com",
- google:"https://google.com",
- maps:"https://maps.google.com"
+if(recognition){
+try{recognition.stop()}catch(e){}
+}
+
+recognition=new SpeechRecognition();
+recognition.lang="es-MX";
+recognition.continuous=false;
+recognition.interimResults=false;
+
+recognition.onstart=()=>{
+statusText.textContent="◉ LISTENING";
 };
 
-function reloj(){
- document.getElementById("reloj").textContent=
- new Date().toLocaleTimeString("es-MX",{
- hour:"2-digit",
- minute:"2-digit"
- });
+recognition.onresult=event=>{
+const text=event.results[0][0].transcript;
+input.value=text;
+sendMessage();
+};
+
+recognition.onerror=event=>{
+document.getElementById("notice").textContent=
+"No se pudo usar el micrófono: "+event.error;
+statusText.textContent="● SYSTEM READY";
+};
+
+recognition.onend=()=>{
+if(statusText.textContent==="◉ LISTENING"){
+statusText.textContent="● SYSTEM READY";
+}
+};
+
+try{
+recognition.start();
+}catch(e){
+document.getElementById("notice").textContent=
+"No se pudo iniciar el micrófono.";
+}
 }
 
-reloj();
-setInterval(reloj,1000);
-
-function mostrar(texto){
- pantalla.textContent="JARVIS: "+texto;
+function stopVoice(){
+if("speechSynthesis" in window){
+speechSynthesis.cancel();
+}
+if(recognition){
+try{recognition.stop()}catch(e){}
+}
+statusText.textContent="● SYSTEM READY";
 }
 
-function vozDisponible(){
- return "speechSynthesis" in window;
+function toggleVoice(){
+voiceEnabled=!voiceEnabled;
+
+document.getElementById("voiceButton").textContent=
+voiceEnabled?"🔊 VOZ ON":"🔇 VOZ OFF";
+
+if(!voiceEnabled)stopVoice();
 }
+</script>
 
-function hablar(texto){
- mostrar(texto);
-
- if(!vozDisponible()){
-  actividad.textContent="VOICE UNAVAILABLE";
-  return;
- }
-
- clearTimeout(timerReinicio);
-
- if(recognition){
-  try{recognition.abort()}catch(e){}
- }
-
- speechSynthesis.cancel();
-
- const mensaje=new SpeechSynthesisUtterance(texto);
- mensaje.lang=idioma;
- mensaje.rate=.95;
- mensaje.pitch=1;
-
- const voces=speechSynthesis.getVoices();
-
- const preferidas=voces.filter(v=>
- v.lang.toLowerCase().startsWith(
- idioma.substring(0,2).toLowerCase()
- ));
-
- const femenina=preferidas.find(v=>
- /female|mónica|monica|paulina|sabina|samantha|sofia|victoria|allison/i.test(v.name)
- );
-
- if(femenina){
-  mensaje.voice=femenina;
- }else if(preferidas.length){
-  mensaje.voice=preferidas[0];
- }
-
- hablando=true;
- actividad.textContent="JARVIS SPEAKING";
- voiceStatus.textContent="SPEAKING";
-
- mensaje.onend=()=>{
-  hablando=false;
-  actividad.textContent="AWAITING COMMAND";
-  voiceStatus.textContent
+</body>
+</html>
