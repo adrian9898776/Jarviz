@@ -2,372 +2,467 @@
 <html lang="es">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="theme-color" content="#020b17">
-<title>JARVIS 5.0</title>
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#000000">
+<title>JARVIS 8.0 | MARK VIII</title>
 
 <style>
-:root {
-  --cyan:#4deaff;
-  --blue:#008dff;
-  --dark:#020b17;
+:root{
+  --blue:#009dff;
+  --cyan:#46eaff;
+  --dark:#00040a;
+  --glass:#031527;
 }
 
-* {
-  box-sizing:border-box;
-}
+*{box-sizing:border-box}
 
-body {
+body{
   margin:0;
-  min-height:100vh;
-  background:
-    radial-gradient(ellipse at center,
-    #103b59 0%,
-    #041827 50%,
-    #01050d 100%);
-  color:#bff6ff;
+  background:#000;
+  color:#8feaff;
   font-family:Arial,sans-serif;
+  overflow-x:hidden;
 }
 
-body::before {
+body::before{
   content:"";
   position:fixed;
   inset:0;
   pointer-events:none;
   background:repeating-linear-gradient(
     0deg,
-    transparent 0px,
-    transparent 4px,
-    #00cfff12 5px
+    transparent 0 5px,
+    #00bfff0b 6px
   );
+  z-index:10;
 }
 
-header {
-  text-align:center;
-  padding:20px;
-  border-bottom:1px solid var(--cyan);
-  box-shadow:0 0 25px #00bfff33;
-}
-
-h1 {
-  margin:0;
-  font-size:clamp(30px,7vw,55px);
-  letter-spacing:8px;
-  color:var(--cyan);
-  text-shadow:0 0 25px cyan;
-}
-
-.subtitle {
-  margin-top:10px;
-  font-size:11px;
-  letter-spacing:3px;
-  color:#78bed3;
-}
-
-.dashboard {
-  max-width:1300px;
-  margin:20px auto;
-  padding:0 12px;
-  display:grid;
-  grid-template-columns:1fr 2fr 1fr;
-  gap:15px;
-}
-
-.panel {
-  background:linear-gradient(
-    135deg,
-    #06273cdd,
-    #02101fee
-  );
-  border:1px solid #168db4;
-  padding:17px;
-  box-shadow:
-    inset 0 0 25px #00cfff18,
-    0 0 20px #00bfff22;
-  border-radius:5px;
-}
-
-.panel h3 {
-  margin:0 0 15px;
-  padding-bottom:10px;
-  border-bottom:1px solid #17607a;
-  color:var(--cyan);
-  font-size:12px;
-  letter-spacing:2px;
-}
-
-.info {
+header{
+  height:115px;
+  background:
+    radial-gradient(ellipse at bottom,#06345c,#01040c 75%);
+  border-bottom:1px solid #168ad1;
   display:flex;
+  align-items:center;
   justify-content:space-between;
-  gap:10px;
-  padding:12px 0;
-  border-bottom:1px solid #15455a;
-  font-size:12px;
+  padding:15px 5%;
 }
 
-.info span {
-  color:#43ffd0;
+.logo{
+  font-size:clamp(28px,6vw,60px);
+  font-weight:900;
+  letter-spacing:6px;
+  color:#28aaff;
+  text-shadow:0 0 20px #008cff;
 }
 
-.center {
-  min-height:400px;
+.subtitle{
+  font-size:10px;
+  letter-spacing:3px;
+  margin-top:8px;
+}
+
+.top-ring{
+  width:85px;
+  height:85px;
+  border:7px solid #1689e8;
+  border-left-color:transparent;
+  border-radius:50%;
+  box-shadow:0 0 18px #008cff;
+  animation:spin 12s linear infinite;
+}
+
+.dashboard{
+  max-width:1450px;
+  margin:auto;
+  padding:20px 12px;
+}
+
+.top-data{
+  display:flex;
+  gap:20px;
+  flex-wrap:wrap;
+  margin-bottom:25px;
+}
+
+.gauge{
+  width:125px;
+  height:125px;
+  border-radius:50%;
+  border:9px solid #20dfff;
+  border-top-color:#ff2020;
+  border-left-color:#ff2020;
+  box-shadow:
+    0 0 18px #00bfff,
+    inset 0 0 20px #008cff55;
   display:flex;
   flex-direction:column;
-  align-items:center;
   justify-content:center;
-  position:relative;
-  overflow:hidden;
+  align-items:center;
 }
 
-.center::before {
-  content:"";
-  position:absolute;
-  inset:0;
-  background:
-    linear-gradient(
-      transparent 49%,
-      #00cfff10 50%,
-      transparent 51%
-    ),
-    linear-gradient(
-      90deg,
-      transparent 49%,
-      #00cfff10 50%,
-      transparent 51%
-    );
-  background-size:35px 35px;
+.gauge strong{
+  font-size:27px;
+  text-shadow:0 0 12px cyan;
 }
 
-.hud {
+.gauge span{
+  font-size:10px;
+  margin-top:6px;
+}
+
+.control-center{
+  display:grid;
+  grid-template-columns:1fr 2.2fr 1fr;
+  align-items:center;
+  gap:12px;
+  min-height:570px;
+}
+
+.panel{
+  background:linear-gradient(135deg,#06233d99,#010711dd);
+  border:1px solid #147fbd;
+  padding:15px;
+  box-shadow:
+    inset 0 0 25px #008cff22,
+    0 0 15px #008cff22;
+}
+
+.panel h3{
+  font-size:12px;
+  letter-spacing:2px;
+  border-bottom:1px solid #1374a5;
+  padding-bottom:12px;
+  color:#46eaff;
+}
+
+.left-panel{
+  transform:perspective(700px) rotateY(9deg);
+}
+
+.right-panel{
+  transform:perspective(700px) rotateY(-9deg);
+}
+
+.data{
+  display:flex;
+  justify-content:space-between;
+  border-bottom:1px solid #124765;
+  padding:12px 0;
+  font-size:11px;
+}
+
+.data b{color:#5dffda}
+
+.bar{
+  height:7px;
+  background:#052238;
+  margin:12px 0;
+}
+
+.bar div{
+  height:100%;
+  background:linear-gradient(90deg,#0075df,#4deaff);
+  box-shadow:0 0 12px cyan;
+}
+
+.radar{
   position:relative;
-  width:300px;
-  height:300px;
+  width:min(100%,510px);
+  aspect-ratio:1;
+  margin:auto;
   display:grid;
   place-items:center;
+  filter:drop-shadow(0 0 15px #008cff88);
 }
 
-.ring {
+.ring{
   position:absolute;
   border-radius:50%;
-  border:2px solid #31d9ff;
-  box-shadow:
-    0 0 20px #03d8ff66,
-    inset 0 0 20px #03d8ff33;
+  pointer-events:none;
 }
 
-.ring1 {
+.r1{
   inset:0;
-  border-style:dashed;
+  border:2px dashed #167ac5;
+  animation:spin 40s linear infinite;
+}
+
+.r2{
+  inset:6%;
+  border:12px solid transparent;
+  border-top-color:#139fff;
+  border-bottom-color:#139fff;
+  animation:spin 22s linear infinite reverse;
+}
+
+.r3{
+  inset:13%;
+  border:3px dotted #63eaff;
+  animation:spin 15s linear infinite;
+}
+
+.r4{
+  inset:19%;
+  background:repeating-conic-gradient(
+    #45dfff 0deg 1deg,
+    transparent 1deg 5deg
+  );
+  -webkit-mask:radial-gradient(
+    transparent 0 87%,
+    black 88% 100%
+  );
+  mask:radial-gradient(
+    transparent 0 87%,
+    black 88% 100%
+  );
   animation:spin 30s linear infinite;
 }
 
-.ring2 {
-  inset:20px;
-  border:9px double #1e91c2;
+.r5{
+  inset:25%;
+  border:8px double #158de0;
   border-left-color:transparent;
   border-right-color:transparent;
-  animation:spin 15s linear infinite reverse;
+  animation:spin 12s linear infinite reverse;
 }
 
-.ring3 {
-  inset:48px;
-  border:3px dotted #80f5ff;
-  animation:spin 9s linear infinite;
+.r6{
+  inset:31%;
+  border:2px solid #70faff;
+  box-shadow:
+    0 0 20px #00cfff,
+    inset 0 0 20px #00bfff;
 }
 
-.core {
-  z-index:2;
-  width:145px;
-  height:145px;
-  display:grid;
-  place-items:center;
-  clip-path:polygon(
-    50% 0%,
-    85% 15%,
-    100% 50%,
-    85% 85%,
-    50% 100%,
-    15% 85%,
-    0% 50%,
-    15% 15%
+.crosshair{
+  position:absolute;
+  width:100%;
+  height:1px;
+  background:linear-gradient(
+    90deg,
+    transparent,
+    #159ad0,
+    transparent
   );
+}
+
+.crosshair.vertical{
+  transform:rotate(90deg);
+}
+
+.app-core{
+  position:relative;
+  z-index:3;
+  width:43%;
+  aspect-ratio:1;
+  border:2px solid #47dfff;
+  border-radius:50%;
   background:radial-gradient(
     circle,
-    #b5ffff,
-    #16bde9 25%,
-    #064267 65%,
-    #011c34 85%
+    #07395d,
+    #010a17 75%
   );
-  filter:drop-shadow(0 0 25px cyan);
-}
-
-.core strong {
-  color:white;
-  font-size:22px;
-  letter-spacing:3px;
-  text-shadow:0 0 15px #003c66;
-}
-
-@keyframes spin {
-  to {
-    transform:rotate(360deg);
-  }
-}
-
-@keyframes pulse {
-  50% {
-    opacity:.5;
-  }
-}
-
-.status {
-  margin-top:25px;
-  color:#52eaff;
-  font-size:12px;
-  letter-spacing:2px;
-  text-align:center;
-  animation:pulse 3s infinite;
-}
-
-.spectrum {
-  height:50px;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  gap:4px;
-}
-
-.spectrum i {
-  width:5px;
-  background:#45dfff;
-  box-shadow:0 0 8px cyan;
-  animation:pulse 1s infinite alternate;
-}
-
-.apps {
+  box-shadow:
+    0 0 25px #00bfff,
+    inset 0 0 25px #00bfff55;
   display:grid;
   grid-template-columns:1fr 1fr;
-  gap:9px;
+  gap:5px;
+  padding:12%;
+  align-content:center;
 }
 
-.apps a,
-button {
-  display:block;
-  padding:13px 7px;
-  background:#073047;
-  border:1px solid #159ac6;
-  border-radius:5px;
-  color:#c8faff;
+.app-core a{
+  text-align:center;
+  padding:7px 2px;
+  border:1px solid #31dfff;
+  background:#06283e;
+  color:#a8faff;
+  text-decoration:none;
+  font-size:clamp(7px,1vw,10px);
+  box-shadow:0 0 8px #00bfff55;
+  border-radius:3px;
+}
+
+.app-core a:active{
+  background:#168dc5;
+}
+
+.center-label{
+  text-align:center;
+  margin-top:15px;
+  font-size:12px;
+  letter-spacing:3px;
+  text-shadow:0 0 12px cyan;
+}
+
+.status{
+  text-align:center;
+  margin-top:12px;
+  color:#69ffdf;
+  font-size:11px;
+  letter-spacing:2px;
+}
+
+.app-list{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:8px;
+}
+
+.app-list a{
+  padding:11px 4px;
+  background:#05283f;
+  border:1px solid #168bc7;
+  color:#a5edff;
   text-decoration:none;
   text-align:center;
+  font-size:10px;
+}
+
+.app-list a:active{
+  background:#147eb0;
+}
+
+.command-list{
+  font-size:11px;
+  line-height:2.3;
+}
+
+.terminal{
+  margin-top:25px;
+  border:1px solid #1487c5;
+  background:#020e1c;
+  padding:15px;
+  box-shadow:0 0 20px #008cff22;
+}
+
+.terminal h3{
   font-size:12px;
-  cursor:pointer;
+  letter-spacing:3px;
 }
 
-button:active,
-.apps a:active {
-  background:#137b9e;
-}
-
-.chat {
-  max-width:1276px;
-  margin:0 auto 20px;
-}
-
-#messages {
-  height:200px;
+#messages{
+  height:180px;
   overflow-y:auto;
+  background:#000811;
+  border:1px solid #15567e;
   padding:12px;
-  background:#020d1a;
-  border:1px solid #165f80;
-  line-height:1.6;
 }
 
-.message {
-  margin-bottom:10px;
+.message{
+  margin-bottom:9px;
   padding:10px;
-  background:#09283d;
-  border-radius:5px;
+  background:#06253a;
+  border-left:3px solid #2ddfff;
+  font-size:13px;
   white-space:pre-wrap;
 }
 
-.user {
-  background:#0a4057;
+.message.user{
+  border-left-color:#5bffca;
 }
 
-.controls {
+form{
   display:flex;
   gap:8px;
-  margin-top:10px;
+  margin-top:12px;
 }
 
-input {
+input{
   flex:1;
   min-width:0;
-  padding:13px;
-  background:#031626;
+  background:#03182b;
+  border:1px solid #168bc7;
+  padding:14px;
   color:white;
-  border:1px solid #1485ae;
-  border-radius:5px;
   font-size:16px;
 }
 
-.buttons {
+button{
+  background:#073754;
+  border:1px solid #20a7e8;
+  color:#b5faff;
+  padding:13px;
+  cursor:pointer;
+  touch-action:manipulation;
+}
+
+button:active{
+  background:#158bc4;
+}
+
+.controls{
   display:flex;
-  gap:10px;
+  gap:9px;
   margin-top:10px;
 }
 
-.buttons button {
-  flex:1;
-}
+.controls button{flex:1}
 
-.note {
-  font-size:12px;
-  color:#8bbdcc;
-  line-height:1.6;
-}
-
-footer {
-  text-align:center;
-  padding:20px;
+.notice{
+  color:#79b5d0;
   font-size:11px;
-  letter-spacing:2px;
-  color:#477b91;
+  margin-top:12px;
 }
 
-@media(max-width:800px) {
-  .dashboard {
+footer{
+  text-align:center;
+  padding:25px;
+  font-size:10px;
+  letter-spacing:3px;
+  color:#357da3;
+}
+
+@keyframes spin{
+  to{transform:rotate(360deg)}
+}
+
+@media(max-width:900px){
+  .control-center{
     grid-template-columns:1fr 1fr;
-    gap:10px;
   }
 
-  .center {
+  .center-section{
     grid-column:1/-1;
     grid-row:1;
   }
 
-  .hud {
-    width:260px;
-    height:260px;
-  }
-
-  .panel {
-    padding:12px;
-  }
-
-  .chat {
-    margin:10px;
+  .left-panel,.right-panel{
+    transform:none;
   }
 }
 
-@media(max-width:400px) {
-  .apps {
+@media(max-width:480px){
+  .dashboard{padding:10px}
+
+  .radar{width:100%}
+
+  .control-center{gap:8px}
+
+  .panel{padding:9px}
+
+  .data,.command-list{
+    font-size:9px;
+  }
+
+  .app-list{
     grid-template-columns:1fr;
   }
 
-  .info {
-    font-size:10px;
+  .app-core{padding:10%}
+
+  .controls{flex-wrap:wrap}
+
+  .controls button{
+    min-width:85px;
+  }
+}
+
+@media(prefers-reduced-motion:reduce){
+  .ring,.top-ring{
+    animation:none;
   }
 }
 </style>
@@ -376,194 +471,276 @@ footer {
 <body>
 
 <header>
-  <h1>J.A.R.V.I.S.</h1>
-  <div class="subtitle">
-    ADVANCED HOLOGRAPHIC COMMAND CENTER
+  <div>
+    <div class="logo">J.A.R.V.I.S.</div>
+    <div class="subtitle">
+      ADVANCED HOLOGRAPHIC CONTROL SYSTEM
+    </div>
   </div>
+  <div class="top-ring"></div>
 </header>
 
 <main class="dashboard">
 
-<section class="panel">
+<div class="top-data">
+  <div class="gauge">
+    <strong>100%</strong>
+    <span>SYSTEM</span>
+  </div>
+
+  <div class="gauge">
+    <strong id="timeGauge">--:--</strong>
+    <span>LOCAL TIME</span>
+  </div>
+</div>
+
+<div class="control-center">
+
+<section class="panel left-panel">
   <h3>◈ SYSTEM DIAGNOSTICS</h3>
 
-  <div class="info">
-    CORE <span>ONLINE</span>
+  <div class="data">
+    CORE <b>ONLINE</b>
   </div>
 
-  <div class="info">
-    COMMANDS <span>ACTIVE</span>
+  <div class="data">
+    COMMANDS <b>ACTIVE</b>
   </div>
 
-  <div class="info">
-    LANGUAGE <span>ES-MX</span>
+  <div class="data">
+    LANGUAGE <b>ES-MX</b>
   </div>
 
-  <div class="info">
-    AI ENGINE <span>OFFLINE</span>
+  <div class="data">
+    AI ENGINE <b>OFFLINE</b>
   </div>
 
-  <div class="info">
-    TIME <span id="clock">--:--</span>
-  </div>
-
-  <div class="info">
-    VOICE <span id="voiceStatus">READY</span>
+  <div class="data">
+    MICROPHONE <b id="micStatus">READY</b>
   </div>
 
   <h3 style="margin-top:25px">
-    ◈ AUDIO SIGNAL
+    ◈ SYSTEM ENERGY
   </h3>
 
-  <div class="spectrum" id="spectrum"></div>
+  <div class="bar">
+    <div style="width:95%"></div>
+  </div>
 
-  <p class="note" id="notice">
-    JARVIS preparado para recibir órdenes.
-  </p>
+  <h3>◈ SIGNAL INTEGRITY</h3>
+
+  <div class="bar">
+    <div style="width:88%"></div>
+  </div>
+
+  <h3>◈ TACTICAL INFORMATION</h3>
+
+  <div class="command-list">
+    SYSTEM: MARK VIII<br>
+    INTERFACE: ACTIVE<br>
+    COMMAND MODE: READY<br>
+    NETWORK: BROWSER<br>
+    VOICE: AVAILABLE
+  </div>
 </section>
 
-<section class="panel center">
+<section class="center-section">
 
-  <div class="hud">
-    <div class="ring ring1"></div>
-    <div class="ring ring2"></div>
-    <div class="ring ring3"></div>
+<div class="radar">
 
-    <div class="core">
-      <strong>JARVIS</strong>
-    </div>
+  <div class="crosshair"></div>
+  <div class="crosshair vertical"></div>
+
+  <div class="ring r1"></div>
+  <div class="ring r2"></div>
+  <div class="ring r3"></div>
+  <div class="ring r4"></div>
+  <div class="ring r5"></div>
+  <div class="ring r6"></div>
+
+  <div class="app-core">
+    <a href="https://www.roblox.com/">
+      ROBLOX
+    </a>
+
+    <a href="https://www.youtube.com/">
+      YOUTUBE
+    </a>
+
+    <a href="https://mail.google.com/">
+      GMAIL
+    </a>
+
+    <a href="https://web.whatsapp.com/">
+      WHATSAPP
+    </a>
+
+    <a href="https://www.google.com/">
+      GOOGLE
+    </a>
+
+    <a href="https://maps.google.com/">
+      MAPS
+    </a>
   </div>
 
-  <div class="status" id="status">
-    ● SYSTEM READY
-  </div>
+</div>
+
+<div class="center-label">
+  HOLOGRAPHIC APPLICATION CONTROL
+</div>
+
+<div class="status" id="status">
+  ● AWAITING COMMAND
+</div>
 
 </section>
 
-<section class="panel">
+<section class="panel right-panel">
 
-  <h3>◈ APPLICATIONS</h3>
+<h3>◈ APPLICATION DATABASE</h3>
 
-  <div class="apps">
-    <a href="https://mail.google.com">
-      ✉ GMAIL
-    </a>
+<div class="app-list">
 
-    <a href="https://web.whatsapp.com">
-      ◉ WHATSAPP
-    </a>
+<a href="https://www.roblox.com/">
+  ROBLOX
+</a>
 
-    <a href="https://youtube.com">
-      ▶ YOUTUBE
-    </a>
+<a href="https://www.youtube.com/">
+  YOUTUBE
+</a>
 
-    <a href="https://google.com">
-      ⌕ GOOGLE
-    </a>
+<a href="https://mail.google.com/">
+  GMAIL
+</a>
 
-    <a href="https://roblox.com">
-      ◇ ROBLOX
-    </a>
+<a href="https://web.whatsapp.com/">
+  WHATSAPP
+</a>
 
-    <a href="https://maps.google.com">
-      ⌖ MAPS
-    </a>
+<a href="https://www.google.com/">
+  GOOGLE
+</a>
+
+<a href="https://maps.google.com/">
+  MAPS
+</a>
+
+</div>
+
+<h3 style="margin-top:25px">
+  ◈ COMMAND DATABASE
+</h3>
+
+<div class="command-list">
+  &gt; HOLA JARVIS<br>
+  &gt; CÓMO ESTÁS<br>
+  &gt; ABRE ROBLOX<br>
+  &gt; ABRE YOUTUBE<br>
+  &gt; ABRE GMAIL<br>
+  &gt; ABRE WHATSAPP<br>
+  &gt; BUSCA MINECRAFT<br>
+  &gt; QUÉ HORA ES<br>
+  &gt; QUÉ FECHA ES<br>
+  &gt; ATAJO [NOMBRE]
+</div>
+
+</section>
+
+</div>
+
+<section class="terminal">
+
+<h3>◈ JARVIS COMMUNICATION TERMINAL</h3>
+
+<div id="messages">
+  <div class="message">
+    JARVIS: Sistemas iniciados.
+    Estoy lista para recibir sus órdenes, señor.
   </div>
+</div>
 
-  <h3 style="margin-top:25px">
-    ◈ COMMAND DATABASE
-  </h3>
+<form id="chatForm">
+  <input
+    id="commandInput"
+    type="text"
+    placeholder="Escribe una orden..."
+    autocomplete="off"
+    enterkeyhint="send"
+  >
 
-  <p class="note">
-    ABRE ROBLOX<br>
-    ABRE YOUTUBE<br>
-    ABRE GMAIL<br>
-    ABRE WHATSAPP<br>
-    BUSCA MINECRAFT<br>
-    QUÉ HORA ES<br>
-    QUÉ FECHA ES<br>
-    HOLA JARVIS
-  </p>
+  <button type="submit">
+    ➤ ENVIAR
+  </button>
+</form>
+
+<div class="controls">
+
+<button type="button" id="listenButton">
+  🎙 HABLAR
+</button>
+
+<button type="button" id="stopButton">
+  ■ DETENER
+</button>
+
+<button type="button" id="voiceButton">
+  🔊 VOZ ON
+</button>
+
+</div>
+
+<div class="notice" id="notice">
+  Sistema preparado para recibir órdenes.
+</div>
 
 </section>
 
 </main>
 
-<section class="panel chat">
-
-<h3>◈ JARVIS COMMUNICATION SYSTEM</h3>
-
-<div id="messages">
-  <div class="message">
-    JARVIS: Sistemas preparados.
-    Estoy a tus órdenes.
-  </div>
-</div>
-
-<div class="controls">
-  <input
-    id="input"
-    placeholder="Habla o escribe una orden..."
-    autocomplete="off"
-  >
-
-  <button onclick="sendMessage()">
-    ENVIAR
-  </button>
-</div>
-
-<div class="buttons">
-
-  <button onclick="startListening()">
-    🎙 HABLAR
-  </button>
-
-  <button onclick="stopVoice()">
-    ■ DETENER
-  </button>
-
-  <button onclick="toggleVoice()" id="voiceButton">
-    🔊 VOZ ON
-  </button>
-
-</div>
-
-</section>
-
 <footer>
-JARVIS 5.0 · MARK V · PERSONAL ASSISTANT
+JARVIS 8.0 · MARK VIII · PERSONAL COMMAND SYSTEM
 </footer>
 
 <script>
+"use strict";
 
-const messages =
-  document.getElementById("messages");
+(function(){
 
-const input =
-  document.getElementById("input");
+const $ = id => document.getElementById(id);
 
-const statusText =
-  document.getElementById("status");
+const messages = $("messages");
+const input = $("commandInput");
+const status = $("status");
+const notice = $("notice");
 
 let voiceEnabled = true;
 let recognition = null;
 
-function updateClock() {
-  document.getElementById("clock").textContent =
-    new Date().toLocaleTimeString("es-MX", {
-      hour:"2-digit",
-      minute:"2-digit"
-    });
+const apps = [
+  ["roblox","Roblox","https://www.roblox.com/"],
+  ["youtube","YouTube","https://www.youtube.com/"],
+  ["gmail","Gmail","https://mail.google.com/"],
+  ["correo","Gmail","https://mail.google.com/"],
+  ["whatsapp","WhatsApp","https://web.whatsapp.com/"],
+  ["mapas","Maps","https://maps.google.com/"],
+  ["maps","Maps","https://maps.google.com/"],
+  ["google","Google","https://www.google.com/"]
+];
+
+function normalize(text){
+  return text.toLowerCase()
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g,"")
+    .replace(/[¿?¡!.,]/g,"")
+    .trim();
 }
 
-updateClock();
-setInterval(updateClock,30000);
-
-function addMessage(sender,text) {
+function addMessage(sender,text){
   const div = document.createElement("div");
 
   div.className =
-    "message" + (sender === "TÚ" ? " user" : "");
+    sender === "TÚ" ? "message user" : "message";
 
   div.textContent = sender + ": " + text;
 
@@ -571,129 +748,123 @@ function addMessage(sender,text) {
   messages.scrollTop = messages.scrollHeight;
 }
 
-function speak(text) {
+function speak(text){
+
   addMessage("JARVIS",text);
 
-  if (!voiceEnabled) return;
-  if (!("speechSynthesis" in window)) return;
+  status.textContent = "● AWAITING COMMAND";
+
+  if(!voiceEnabled) return;
+
+  if(!("speechSynthesis" in window)) return;
 
   speechSynthesis.cancel();
 
-  const speech =
-    new SpeechSynthesisUtterance(text);
+  const utterance = new SpeechSynthesisUtterance(text);
 
-  speech.lang = "es-MX";
-  speech.rate = 0.96;
-  speech.pitch = 1.1;
+  utterance.lang = "es-MX";
+  utterance.rate = 0.95;
+  utterance.pitch = 1.15;
 
   const voices = speechSynthesis.getVoices();
 
-  speech.voice =
-    voices.find(v =>
-      /^es/i.test(v.lang) &&
-      /paulina|monica|mónica|sofia|paloma|female/i
-        .test(v.name)
-    ) ||
-    voices.find(v => /^es/i.test(v.lang)) ||
-    null;
+  const female = voices.find(v =>
+    /^es/i.test(v.lang) &&
+    /paulina|monica|mónica|sofia|paloma|female/i.test(v.name)
+  );
 
-  speech.onstart = () => {
-    statusText.textContent = "◉ JARVIS SPEAKING";
-  };
+  const spanish = voices.find(v =>
+    /^es/i.test(v.lang)
+  );
 
-  speech.onend = () => {
-    statusText.textContent = "● SYSTEM READY";
-  };
+  utterance.voice = female || spanish || null;
 
-  speechSynthesis.speak(speech);
+  speechSynthesis.speak(utterance);
 }
 
-function normalize(text) {
-  return text.toLowerCase()
-    .normalize("NFD")
-    .replace(/[\u0300-\u036f]/g,"")
-    .trim();
-}
+function openPage(url,name){
 
-function openApp(url,name) {
   speak("Abriendo " + name + ", señor.");
 
-  setTimeout(() => {
-    window.location.href = url;
-  },700);
+  status.textContent = "◉ OPENING " + name.toUpperCase();
+
+  setTimeout(()=>{
+    window.location.assign(url);
+  },600);
 }
 
-function processCommand(command) {
+function processCommand(original){
 
-  const t = normalize(command);
+  const raw = original.trim();
 
-  addMessage("TÚ",command);
+  if(!raw) return;
 
-  statusText.textContent = "◌ PROCESSING";
+  addMessage("TÚ",raw);
 
-  if (
-    t.startsWith("busca ") ||
-    t.startsWith("buscar ") ||
-    t.startsWith("search ")
-  ) {
+  let text = normalize(raw);
 
-    const query = command.replace(
-      /^(busca|buscar|search)\s+/i,
-      ""
-    );
+  text = text.replace(/^jarvis[\s,]*/,"");
 
-    speak("Buscando " + query);
+  status.textContent = "◌ PROCESSING COMMAND";
 
-    setTimeout(() => {
-      window.location.href =
-        "https://www.google.com/search?q=" +
-        encodeURIComponent(query);
-    },700);
+  const search = text.match(
+    /^(busca|buscar|search)\s+(.+)$/
+  );
 
-    return;
-  }
-
-  if (t.includes("roblox")) {
-    openApp("https://www.roblox.com","Roblox");
-    return;
-  }
-
-  if (t.includes("youtube")) {
-    openApp("https://www.youtube.com","YouTube");
-    return;
-  }
-
-  if (
-    t.includes("gmail") ||
-    t.includes("correo")
-  ) {
-    openApp("https://mail.google.com","Gmail");
-    return;
-  }
-
-  if (t.includes("whatsapp")) {
-    openApp(
-      "https://web.whatsapp.com",
-      "WhatsApp"
+  if(search){
+    openPage(
+      "https://www.google.com/search?q=" +
+      encodeURIComponent(search[2]),
+      "la búsqueda de " + search[2]
     );
     return;
   }
 
-  if (
-    t.includes("maps") ||
-    t.includes("mapas")
-  ) {
-    openApp("https://maps.google.com","Maps");
+  const opening = text.match(
+    /^(abre|abrir|abreme|inicia|entra a|ve a)\s+(.+)$/
+  );
+
+  if(opening){
+
+    const app = apps.find(item =>
+      opening[2].includes(item[0])
+    );
+
+    if(app){
+      openPage(app[2],app[1]);
+      return;
+    }
+  }
+
+  const shortcut = text.match(/^atajo\s+(.+)$/);
+
+  if(shortcut){
+    openPage(
+      "shortcuts://run-shortcut?name=" +
+      encodeURIComponent(shortcut[1]),
+      "el atajo " + shortcut[1]
+    );
     return;
   }
 
-  if (t.includes("google")) {
-    openApp("https://www.google.com","Google");
+  if(text.includes("como estas")){
+    speak(
+      "Estoy muy bien, señor. " +
+      "Todos mis sistemas están funcionando. " +
+      "¿Y usted cómo se encuentra?"
+    );
     return;
   }
 
-  if (t.includes("hora")) {
-    const hora = new Date().toLocaleTimeString(
+  if(text.includes("hola")){
+    speak(
+      "Hola, señor. JARVIS está a su servicio."
+    );
+    return;
+  }
+
+  if(text.includes("hora")){
+    const time = new Date().toLocaleTimeString(
       "es-MX",
       {
         hour:"numeric",
@@ -701,150 +872,150 @@ function processCommand(command) {
       }
     );
 
-    speak("Son las " + hora);
+    speak("Son las " + time + ", señor.");
     return;
   }
 
-  if (
-    t.includes("fecha") ||
-    t.includes("que dia")
-  ) {
-    const fecha = new Date().toLocaleDateString(
+  if(
+    text.includes("fecha") ||
+    text.includes("que dia")
+  ){
+    const date = new Date().toLocaleDateString(
       "es-MX",
-      {
-        dateStyle:"full"
-      }
+      {dateStyle:"full"}
     );
 
-    speak("Hoy es " + fecha);
+    speak("Hoy es " + date + ".");
     return;
   }
 
-  if (t.includes("hola")) {
+  if(text.includes("gracias")){
+    speak("Siempre a su servicio, señor.");
+    return;
+  }
+
+  if(text.includes("ayuda")){
     speak(
-      "Hola, señor. JARVIS a su servicio."
+      "Puedo abrir aplicaciones, buscar en Google, " +
+      "decirle la hora y responder algunas preguntas básicas."
     );
-    return;
-  }
-
-  if (t.includes("gracias")) {
-    speak(
-      "Siempre a su servicio, señor."
-    );
-    return;
-  }
-
-  if (t.startsWith("atajo ")) {
-
-    const nombre = command.slice(6).trim();
-
-    if (!nombre) {
-      speak("Dime el nombre del atajo.");
-      return;
-    }
-
-    speak("Intentando ejecutar el atajo.");
-
-    setTimeout(() => {
-      window.location.href =
-        "shortcuts://run-shortcut?name=" +
-        encodeURIComponent(nombre);
-    },800);
-
     return;
   }
 
   speak(
-    "Te escuché, señor. Todavía no tengo " +
-    "esa respuesta configurada. " +
-    "Puedo abrir aplicaciones, buscar en " +
-    "Google y responder preguntas básicas."
+    "He recibido su mensaje, señor. " +
+    "Todavía necesito conectar inteligencia artificial " +
+    "para conversar libremente."
   );
 }
 
-function sendMessage() {
+$("chatForm").addEventListener("submit",function(e){
+
+  e.preventDefault();
 
   const text = input.value.trim();
 
-  if (!text) return;
+  if(!text) return;
 
   input.value = "";
+  input.blur();
 
   processCommand(text);
-}
+});
 
-input.addEventListener("keydown",event => {
-  if (event.key === "Enter") {
-    sendMessage();
+$("voiceButton").addEventListener("click",function(){
+
+  voiceEnabled = !voiceEnabled;
+
+  this.textContent =
+    voiceEnabled ? "🔊 VOZ ON" : "🔇 VOZ OFF";
+
+  if(!voiceEnabled && "speechSynthesis" in window){
+    speechSynthesis.cancel();
   }
 });
 
-function startListening() {
+$("stopButton").addEventListener("click",function(){
+
+  if("speechSynthesis" in window){
+    speechSynthesis.cancel();
+  }
+
+  if(recognition){
+    try{
+      recognition.abort();
+    }catch(e){}
+  }
+
+  status.textContent = "■ STANDBY";
+});
+
+$("listenButton").addEventListener("click",function(){
 
   const SpeechRecognition =
     window.SpeechRecognition ||
     window.webkitSpeechRecognition;
 
-  if (!SpeechRecognition) {
-
-    document.getElementById("notice")
-      .textContent =
-      "Safari no permite reconocimiento de voz " +
-      "en este momento. Puedes utilizar " +
-      "el micrófono del teclado del iPad.";
-
+  if(!SpeechRecognition){
+    notice.textContent =
+      "El reconocimiento de voz no está disponible. " +
+      "Utiliza el micrófono del teclado del iPad.";
     return;
-  }
-
-  if (recognition) {
-    try {
-      recognition.abort();
-    } catch(e) {}
   }
 
   recognition = new SpeechRecognition();
 
   recognition.lang = "es-MX";
   recognition.continuous = false;
-  recognition.interimResults = false;
 
-  recognition.onstart = () => {
-
-    statusText.textContent = "◉ LISTENING";
-
-    document.getElementById("voiceStatus")
-      .textContent = "LISTENING";
+  recognition.onstart = function(){
+    status.textContent = "◉ LISTENING";
+    $("micStatus").textContent = "LISTENING";
   };
 
-  recognition.onresult = event => {
-
-    const text =
-      event.results[0][0].transcript;
-
+  recognition.onresult = function(event){
+    const text = event.results[0][0].transcript;
     processCommand(text);
   };
 
-  recognition.onerror = event => {
-
-    document.getElementById("notice")
-      .textContent =
+  recognition.onerror = function(event){
+    notice.textContent =
       "Error del micrófono: " + event.error;
-
-    statusText.textContent = "● SYSTEM READY";
   };
 
-  recognition.onend = () => {
+  recognition.onend = function(){
+    $("micStatus").textContent = "READY";
 
-    document.getElementById("voiceStatus")
-      .textContent = "READY";
-
-    if (
-      statusText.textContent === "◉ LISTENING"
-    ) {
-      statusText.textContent = "● SYSTEM READY";
+    if(status.textContent === "◉ LISTENING"){
+      status.textContent = "● AWAITING COMMAND";
     }
   };
 
-  try {
+  try{
     recognition.start();
-  
+  }catch(e){
+    notice.textContent =
+      "No se pudo iniciar el micrófono.";
+  }
+});
+
+function updateClock(){
+
+  $("timeGauge").textContent =
+    new Date().toLocaleTimeString(
+      "es-MX",
+      {
+        hour:"2-digit",
+        minute:"2-digit"
+      }
+    );
+}
+
+updateClock();
+setInterval(updateClock,30000);
+
+})();
+</script>
+
+</body>
+</html>
