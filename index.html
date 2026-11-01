@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>JARVIS</title>
+  <style>
+    body {
+      margin: 0;
+      background: #020b18;
+      color: #00dfff;
+      font-family: Arial, sans-serif;
+      text-align: center;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+    }
+    h1 {
+      font-size: 48px;
+      text-shadow: 0 0 25px #00dfff;
+    }
+    .reactor {
+      width: 180px;
+      height: 180px;
+      border: 5px solid #00dfff;
+      border-radius: 50%;
+      box-shadow: 0 0 40px #00dfff;
+      display: grid;
+      place-items: center;
+      animation: pulse 2s infinite alternate;
+    }
+    @keyframes pulse {
+      from { box-shadow: 0 0 15px #00dfff; }
+      to { box-shadow: 0 0 60px #00dfff; }
+    }
+    button {
+      margin: 15px;
+      padding: 15px 30px;
+      background: transparent;
+      border: 2px solid #00dfff;
+      border-radius: 12px;
+      color: #00dfff;
+      font-size: 18px;
+    }
+    #respuesta {
+      padding: 20px;
+      max-width: 500px;
+    }
+  </style>
+</head>
+<body>
+  <h1>J.A.R.V.I.S.</h1>
+  <div class="reactor">
+    <h2>ONLINE</h2>
+  </div>
+  <p>Asistente personal</p>
+  <button onclick="escuchar()">🎤 HABLAR CON JARVIS</button>
+  <p id="respuesta">Sistema listo.</p>
+
+  <script>
+    function hablar(texto) {
+      document.getElementById("respuesta").textContent = texto;
+      speechSynthesis.cancel();
+      const voz = new SpeechSynthesisUtterance(texto);
+      voz.lang = "es-MX";
+      speechSynthesis.speak(voz);
+    }
+
+    function escuchar() {
+      const Reconocimiento =
+        window.SpeechRecognition ||
+        window.webkitSpeechRecognition;
+
+      if (!Reconocimiento) {
+        hablar("El reconocimiento de voz no está disponible en este navegador.");
+        return;
+      }
+
+      const reconocimiento = new Reconocimiento();
+      reconocimiento.lang = "es-MX";
+
+      reconocimiento.onresult = function(evento) {
+        const mensaje = evento.results[0][0].transcript.toLowerCase();
+
+        if (mensaje.includes("hola")) {
+          hablar("Hola, señor. JARVIS a su servicio.");
+        } else if (mensaje.includes("hora")) {
+          hablar("Son las " + new Date().toLocaleTimeString("es-MX"));
+        } else if (mensaje.includes("fecha")) {
+          hablar("Hoy es " + new Date().toLocaleDateString("es-MX"));
+        } else {
+          hablar("Te escuché decir: " + mensaje);
+        }
+      };
+
+      reconocimiento.onerror = function() {
+        document.getElementById("respuesta").textContent =
+          "No pude escuchar. Revisa el permiso del micrófono.";
+      };
+
+      reconocimiento.start();
+    }
+  </script>
+</body>
+</html>
