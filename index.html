@@ -1,107 +1,194 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>JARVIS</title>
-  <style>
-    body {
-      margin: 0;
-      background: #020b18;
-      color: #00dfff;
-      font-family: Arial, sans-serif;
-      text-align: center;
-      min-height: 100vh;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-    }
-    h1 {
-      font-size: 48px;
-      text-shadow: 0 0 25px #00dfff;
-    }
-    .reactor {
-      width: 180px;
-      height: 180px;
-      border: 5px solid #00dfff;
-      border-radius: 50%;
-      box-shadow: 0 0 40px #00dfff;
-      display: grid;
-      place-items: center;
-      animation: pulse 2s infinite alternate;
-    }
-    @keyframes pulse {
-      from { box-shadow: 0 0 15px #00dfff; }
-      to { box-shadow: 0 0 60px #00dfff; }
-    }
-    button {
-      margin: 15px;
-      padding: 15px 30px;
-      background: transparent;
-      border: 2px solid #00dfff;
-      border-radius: 12px;
-      color: #00dfff;
-      font-size: 18px;
-    }
-    #respuesta {
-      padding: 20px;
-      max-width: 500px;
-    }
-  </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#020b18">
+<title>J.A.R.V.I.S.</title>
+
+<style>
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  background: radial-gradient(circle at center, #10365c, #020b18 70%);
+  color: #9eeaff;
+  font-family: Arial, sans-serif;
+  text-align: center;
+  padding: 25px 15px;
+}
+
+h1 {
+  font-size: 42px;
+  letter-spacing: 8px;
+  color: #00d9ff;
+  text-shadow: 0 0 25px #00d9ff;
+}
+
+.status {
+  color: #00ffae;
+  letter-spacing: 4px;
+}
+
+.reactor {
+  width: 190px;
+  height: 190px;
+  margin: 30px auto;
+  border: 5px solid #00d9ff;
+  border-radius: 50%;
+  box-shadow:
+    0 0 25px #00d9ff,
+    inset 0 0 35px #00d9ff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  animation: pulse 3s infinite;
+}
+
+.core {
+  width: 95px;
+  height: 95px;
+  border-radius: 50%;
+  background: #00d9ff;
+  box-shadow: 0 0 45px #00d9ff;
+}
+
+@keyframes pulse {
+  50% {
+    box-shadow:
+      0 0 55px #00d9ff,
+      inset 0 0 55px #00d9ff;
+  }
+}
+
+.panel {
+  max-width: 550px;
+  margin: auto;
+  padding: 20px;
+  border: 1px solid #00d9ff;
+  border-radius: 15px;
+  background: rgba(0, 20, 40, 0.85);
+}
+
+input {
+  width: 100%;
+  padding: 15px;
+  font-size: 17px;
+  border-radius: 10px;
+  border: 1px solid #00d9ff;
+  background: #061727;
+  color: white;
+}
+
+button {
+  padding: 14px;
+  margin-top: 12px;
+  width: 100%;
+  background: #00d9ff;
+  color: #00111c;
+  border: none;
+  border-radius: 10px;
+  font-size: 17px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+button:active {
+  background: white;
+}
+
+#respuesta {
+  margin-top: 20px;
+  min-height: 70px;
+  line-height: 1.6;
+  color: white;
+}
+
+.small {
+  font-size: 13px;
+  opacity: 0.7;
+  margin-top: 20px;
+}
+</style>
 </head>
+
 <body>
-  <h1>J.A.R.V.I.S.</h1>
-  <div class="reactor">
-    <h2>ONLINE</h2>
+
+<h1>J.A.R.V.I.S.</h1>
+<p class="status">● ONLINE</p>
+<p>ASISTENTE PERSONAL</p>
+
+<div class="reactor">
+  <div class="core"></div>
+</div>
+
+<div class="panel">
+
+  <p>¿En qué puedo ayudarte?</p>
+
+  <input
+    id="comando"
+    type="text"
+    placeholder="Escribe o dicta una orden..."
+    autocomplete="off"
+  >
+
+  <button onclick="ejecutar()">
+    ⚡ EJECUTAR ORDEN
+  </button>
+
+  <button onclick="saludar()">
+    🔊 ESCUCHAR A JARVIS
+  </button>
+
+  <button onclick="detenerVoz()">
+    🔇 DETENER VOZ
+  </button>
+
+  <div id="respuesta">
+    Sistema iniciado. Esperando instrucciones.
   </div>
-  <p>Asistente personal</p>
-  <button onclick="escuchar()">🎤 HABLAR CON JARVIS</button>
-  <p id="respuesta">Sistema listo.</p>
 
-  <script>
-    function hablar(texto) {
-      document.getElementById("respuesta").textContent = texto;
-      speechSynthesis.cancel();
-      const voz = new SpeechSynthesisUtterance(texto);
-      voz.lang = "es-MX";
-      speechSynthesis.speak(voz);
-    }
+</div>
 
-    function escuchar() {
-      const Reconocimiento =
-        window.SpeechRecognition ||
-        window.webkitSpeechRecognition;
+<p class="small">
+JARVIS SYSTEM • VERSION 2.0
+</p>
 
-      if (!Reconocimiento) {
-        hablar("El reconocimiento de voz no está disponible en este navegador.");
-        return;
-      }
+<script>
 
-      const reconocimiento = new Reconocimiento();
-      reconocimiento.lang = "es-MX";
+const entrada = document.getElementById("comando");
+const pantalla = document.getElementById("respuesta");
 
-      reconocimiento.onresult = function(evento) {
-        const mensaje = evento.results[0][0].transcript.toLowerCase();
+function hablar(texto) {
+  if (!("speechSynthesis" in window)) {
+    return;
+  }
 
-        if (mensaje.includes("hola")) {
-          hablar("Hola, señor. JARVIS a su servicio.");
-        } else if (mensaje.includes("hora")) {
-          hablar("Son las " + new Date().toLocaleTimeString("es-MX"));
-        } else if (mensaje.includes("fecha")) {
-          hablar("Hoy es " + new Date().toLocaleDateString("es-MX"));
-        } else {
-          hablar("Te escuché decir: " + mensaje);
-        }
-      };
+  speechSynthesis.cancel();
 
-      reconocimiento.onerror = function() {
-        document.getElementById("respuesta").textContent =
-          "No pude escuchar. Revisa el permiso del micrófono.";
-      };
+  const voz = new SpeechSynthesisUtterance(texto);
 
-      reconocimiento.start();
-    }
-  </script>
-</body>
-</html>
+  voz.lang = "es-MX";
+  voz.rate = 0.95;
+  voz.pitch = 0.85;
+
+  speechSynthesis.speak(voz);
+}
+
+function responder(texto) {
+  pantalla.textContent = "JARVIS: " + texto;
+  hablar(texto);
+}
+
+function detenerVoz() {
+  if ("speechSynthesis" in window) {
+    speechSynthesis.cancel();
+  }
+}
+
+function saludar() {
+  responder(
