@@ -1,1021 +1,289 @@
+
 <!DOCTYPE html>
 <html lang="es">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<meta name="theme-color" content="#000000">
-<title>JARVIS 8.0 | MARK VIII</title>
-
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#020b16">
+<title>JARVIS 9.0 | MARK IX</title>
 <style>
-:root{
-  --blue:#009dff;
-  --cyan:#46eaff;
-  --dark:#00040a;
-  --glass:#031527;
+:root {
+  --blue: #00aaff;
+  --cyan: #68eaff;
+  --bg: #020b16;
 }
-
-*{box-sizing:border-box}
-
-body{
-  margin:0;
-  background:#000;
-  color:#8feaff;
-  font-family:Arial,sans-serif;
-  overflow-x:hidden;
+* { box-sizing: border-box; }
+body {
+  margin: 0;
+  background: radial-gradient(circle at top, #10355a, #020b16 65%);
+  color: var(--cyan);
+  font-family: Arial, sans-serif;
+  min-height: 100vh;
 }
-
-body::before{
-  content:"";
-  position:fixed;
-  inset:0;
-  pointer-events:none;
-  background:repeating-linear-gradient(
-    0deg,
-    transparent 0 5px,
-    #00bfff0b 6px
-  );
-  z-index:10;
+header {
+  text-align: center;
+  padding: 28px 12px;
+  border-bottom: 1px solid var(--blue);
 }
-
-header{
-  height:115px;
-  background:
-    radial-gradient(ellipse at bottom,#06345c,#01040c 75%);
-  border-bottom:1px solid #168ad1;
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-  padding:15px 5%;
+h1 {
+  font-size: 36px;
+  letter-spacing: 8px;
+  text-shadow: 0 0 20px var(--blue);
+  margin: 8px;
 }
-
-.logo{
-  font-size:clamp(28px,6vw,60px);
-  font-weight:900;
-  letter-spacing:6px;
-  color:#28aaff;
-  text-shadow:0 0 20px #008cff;
+.subtitle { letter-spacing: 3px; font-size: 12px; }
+.orb {
+  width: 160px;
+  height: 160px;
+  border: 5px solid var(--cyan);
+  border-radius: 50%;
+  margin: 25px auto;
+  display: grid;
+  place-items: center;
+  box-shadow: 0 0 35px var(--blue), inset 0 0 35px var(--blue);
+  animation: pulse 3s infinite;
 }
-
-.subtitle{
-  font-size:10px;
-  letter-spacing:3px;
-  margin-top:8px;
+.orb span { font-size: 50px; }
+@keyframes pulse {
+  50% { box-shadow: 0 0 65px var(--cyan), inset 0 0 45px var(--blue); }
 }
-
-.top-ring{
-  width:85px;
-  height:85px;
-  border:7px solid #1689e8;
-  border-left-color:transparent;
-  border-radius:50%;
-  box-shadow:0 0 18px #008cff;
-  animation:spin 12s linear infinite;
+main { max-width: 900px; margin: auto; padding: 16px; }
+.panel {
+  background: rgba(0, 30, 55, .75);
+  border: 1px solid var(--blue);
+  padding: 18px;
+  margin: 15px 0;
+  box-shadow: 0 0 18px #0088ff30;
 }
-
-.dashboard{
-  max-width:1450px;
-  margin:auto;
-  padding:20px 12px;
+h2 { font-size: 15px; letter-spacing: 3px; }
+#chat {
+  height: 350px;
+  overflow-y: auto;
+  border: 1px solid #205678;
+  padding: 12px;
+  background: #00101d;
 }
-
-.top-data{
-  display:flex;
-  gap:20px;
-  flex-wrap:wrap;
-  margin-bottom:25px;
+.msg {
+  padding: 12px;
+  margin: 9px 0;
+  background: #092a40;
+  border-left: 3px solid var(--cyan);
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
 }
-
-.gauge{
-  width:125px;
-  height:125px;
-  border-radius:50%;
-  border:9px solid #20dfff;
-  border-top-color:#ff2020;
-  border-left-color:#ff2020;
-  box-shadow:
-    0 0 18px #00bfff,
-    inset 0 0 20px #008cff55;
-  display:flex;
-  flex-direction:column;
-  justify-content:center;
-  align-items:center;
+.user { border-left-color: #43ffab; }
+.controls { display: flex; gap: 8px; margin-top: 12px; }
+input {
+  flex: 1;
+  min-width: 0;
+  background: #001827;
+  border: 1px solid var(--blue);
+  color: white;
+  padding: 14px;
+  font-size: 16px;
 }
-
-.gauge strong{
-  font-size:27px;
-  text-shadow:0 0 12px cyan;
+button {
+  background: #073c5d;
+  border: 1px solid var(--blue);
+  color: var(--cyan);
+  padding: 13px;
+  cursor: pointer;
+  font-weight: bold;
 }
-
-.gauge span{
-  font-size:10px;
-  margin-top:6px;
-}
-
-.control-center{
-  display:grid;
-  grid-template-columns:1fr 2.2fr 1fr;
-  align-items:center;
-  gap:12px;
-  min-height:570px;
-}
-
-.panel{
-  background:linear-gradient(135deg,#06233d99,#010711dd);
-  border:1px solid #147fbd;
-  padding:15px;
-  box-shadow:
-    inset 0 0 25px #008cff22,
-    0 0 15px #008cff22;
-}
-
-.panel h3{
-  font-size:12px;
-  letter-spacing:2px;
-  border-bottom:1px solid #1374a5;
-  padding-bottom:12px;
-  color:#46eaff;
-}
-
-.left-panel{
-  transform:perspective(700px) rotateY(9deg);
-}
-
-.right-panel{
-  transform:perspective(700px) rotateY(-9deg);
-}
-
-.data{
-  display:flex;
-  justify-content:space-between;
-  border-bottom:1px solid #124765;
-  padding:12px 0;
-  font-size:11px;
-}
-
-.data b{color:#5dffda}
-
-.bar{
-  height:7px;
-  background:#052238;
-  margin:12px 0;
-}
-
-.bar div{
-  height:100%;
-  background:linear-gradient(90deg,#0075df,#4deaff);
-  box-shadow:0 0 12px cyan;
-}
-
-.radar{
-  position:relative;
-  width:min(100%,510px);
-  aspect-ratio:1;
-  margin:auto;
-  display:grid;
-  place-items:center;
-  filter:drop-shadow(0 0 15px #008cff88);
-}
-
-.ring{
-  position:absolute;
-  border-radius:50%;
-  pointer-events:none;
-}
-
-.r1{
-  inset:0;
-  border:2px dashed #167ac5;
-  animation:spin 40s linear infinite;
-}
-
-.r2{
-  inset:6%;
-  border:12px solid transparent;
-  border-top-color:#139fff;
-  border-bottom-color:#139fff;
-  animation:spin 22s linear infinite reverse;
-}
-
-.r3{
-  inset:13%;
-  border:3px dotted #63eaff;
-  animation:spin 15s linear infinite;
-}
-
-.r4{
-  inset:19%;
-  background:repeating-conic-gradient(
-    #45dfff 0deg 1deg,
-    transparent 1deg 5deg
-  );
-  -webkit-mask:radial-gradient(
-    transparent 0 87%,
-    black 88% 100%
-  );
-  mask:radial-gradient(
-    transparent 0 87%,
-    black 88% 100%
-  );
-  animation:spin 30s linear infinite;
-}
-
-.r5{
-  inset:25%;
-  border:8px double #158de0;
-  border-left-color:transparent;
-  border-right-color:transparent;
-  animation:spin 12s linear infinite reverse;
-}
-
-.r6{
-  inset:31%;
-  border:2px solid #70faff;
-  box-shadow:
-    0 0 20px #00cfff,
-    inset 0 0 20px #00bfff;
-}
-
-.crosshair{
-  position:absolute;
-  width:100%;
-  height:1px;
-  background:linear-gradient(
-    90deg,
-    transparent,
-    #159ad0,
-    transparent
-  );
-}
-
-.crosshair.vertical{
-  transform:rotate(90deg);
-}
-
-.app-core{
-  position:relative;
-  z-index:3;
-  width:43%;
-  aspect-ratio:1;
-  border:2px solid #47dfff;
-  border-radius:50%;
-  background:radial-gradient(
-    circle,
-    #07395d,
-    #010a17 75%
-  );
-  box-shadow:
-    0 0 25px #00bfff,
-    inset 0 0 25px #00bfff55;
-  display:grid;
-  grid-template-columns:1fr 1fr;
-  gap:5px;
-  padding:12%;
-  align-content:center;
-}
-
-.app-core a{
-  text-align:center;
-  padding:7px 2px;
-  border:1px solid #31dfff;
-  background:#06283e;
-  color:#a8faff;
-  text-decoration:none;
-  font-size:clamp(7px,1vw,10px);
-  box-shadow:0 0 8px #00bfff55;
-  border-radius:3px;
-}
-
-.app-core a:active{
-  background:#168dc5;
-}
-
-.center-label{
-  text-align:center;
-  margin-top:15px;
-  font-size:12px;
-  letter-spacing:3px;
-  text-shadow:0 0 12px cyan;
-}
-
-.status{
-  text-align:center;
-  margin-top:12px;
-  color:#69ffdf;
-  font-size:11px;
-  letter-spacing:2px;
-}
-
-.app-list{
-  display:grid;
-  grid-template-columns:1fr 1fr;
-  gap:8px;
-}
-
-.app-list a{
-  padding:11px 4px;
-  background:#05283f;
-  border:1px solid #168bc7;
-  color:#a5edff;
-  text-decoration:none;
-  text-align:center;
-  font-size:10px;
-}
-
-.app-list a:active{
-  background:#147eb0;
-}
-
-.command-list{
-  font-size:11px;
-  line-height:2.3;
-}
-
-.terminal{
-  margin-top:25px;
-  border:1px solid #1487c5;
-  background:#020e1c;
-  padding:15px;
-  box-shadow:0 0 20px #008cff22;
-}
-
-.terminal h3{
-  font-size:12px;
-  letter-spacing:3px;
-}
-
-#messages{
-  height:180px;
-  overflow-y:auto;
-  background:#000811;
-  border:1px solid #15567e;
-  padding:12px;
-}
-
-.message{
-  margin-bottom:9px;
-  padding:10px;
-  background:#06253a;
-  border-left:3px solid #2ddfff;
-  font-size:13px;
-  white-space:pre-wrap;
-}
-
-.message.user{
-  border-left-color:#5bffca;
-}
-
-form{
-  display:flex;
-  gap:8px;
-  margin-top:12px;
-}
-
-input{
-  flex:1;
-  min-width:0;
-  background:#03182b;
-  border:1px solid #168bc7;
-  padding:14px;
-  color:white;
-  font-size:16px;
-}
-
-button{
-  background:#073754;
-  border:1px solid #20a7e8;
-  color:#b5faff;
-  padding:13px;
-  cursor:pointer;
-  touch-action:manipulation;
-}
-
-button:active{
-  background:#158bc4;
-}
-
-.controls{
-  display:flex;
-  gap:9px;
-  margin-top:10px;
-}
-
-.controls button{flex:1}
-
-.notice{
-  color:#79b5d0;
-  font-size:11px;
-  margin-top:12px;
-}
-
-footer{
-  text-align:center;
-  padding:25px;
-  font-size:10px;
-  letter-spacing:3px;
-  color:#357da3;
-}
-
-@keyframes spin{
-  to{transform:rotate(360deg)}
-}
-
-@media(max-width:900px){
-  .control-center{
-    grid-template-columns:1fr 1fr;
-  }
-
-  .center-section{
-    grid-column:1/-1;
-    grid-row:1;
-  }
-
-  .left-panel,.right-panel{
-    transform:none;
-  }
-}
-
-@media(max-width:480px){
-  .dashboard{padding:10px}
-
-  .radar{width:100%}
-
-  .control-center{gap:8px}
-
-  .panel{padding:9px}
-
-  .data,.command-list{
-    font-size:9px;
-  }
-
-  .app-list{
-    grid-template-columns:1fr;
-  }
-
-  .app-core{padding:10%}
-
-  .controls{flex-wrap:wrap}
-
-  .controls button{
-    min-width:85px;
-  }
-}
-
-@media(prefers-reduced-motion:reduce){
-  .ring,.top-ring{
-    animation:none;
-  }
-}
+button:disabled { opacity: .5; }
+.buttons { display: flex; gap: 8px; margin-top: 10px; flex-wrap: wrap; }
+.buttons button { flex: 1; }
+#status { font-size: 12px; margin-top: 10px; }
+footer { text-align: center; padding: 25px; font-size: 11px; letter-spacing: 3px; }
 </style>
 </head>
-
 <body>
-
 <header>
-  <div>
-    <div class="logo">J.A.R.V.I.S.</div>
-    <div class="subtitle">
-      ADVANCED HOLOGRAPHIC CONTROL SYSTEM
-    </div>
-  </div>
-  <div class="top-ring"></div>
+  <div class="subtitle">PERSONAL ARTIFICIAL INTELLIGENCE</div>
+  <h1>J.A.R.V.I.S.</h1>
+  <div class="subtitle">VERSION 9.0 · MARK IX</div>
+  <div class="orb"><span>✦</span></div>
+  <div id="connection">CONECTANDO SISTEMA...</div>
 </header>
 
-<main class="dashboard">
+<main>
+  <section class="panel">
+    <h2>◇ TACTICAL INFORMATION</h2>
+    <p>SYSTEM: MARK IX</p>
+    <p>INTERFACE: ACTIVE</p>
+    <p>NETWORK: CLOUDFLARE</p>
+    <p>VOICE: AVAILABLE</p>
+  </section>
 
-<div class="top-data">
-  <div class="gauge">
-    <strong>100%</strong>
-    <span>SYSTEM</span>
-  </div>
+  <section class="panel">
+    <h2>◇ JARVIS COMMUNICATION TERMINAL</h2>
+    <div id="chat" aria-live="polite"></div>
 
-  <div class="gauge">
-    <strong id="timeGauge">--:--</strong>
-    <span>LOCAL TIME</span>
-  </div>
-</div>
+    <form id="form" class="controls">
+      <input id="message" placeholder="Escribe una orden..." maxlength="2000" autocomplete="off">
+      <button id="send" type="submit">ENVIAR</button>
+    </form>
 
-<div class="control-center">
+    <div class="buttons">
+      <button id="mic" type="button">🎙 HABLAR</button>
+      <button id="stop" type="button">■ DETENER</button>
+      <button id="voice" type="button">🔊 VOZ ON</button>
+    </div>
+    <div id="status">Sistema iniciado.</div>
+  </section>
 
-<section class="panel left-panel">
-  <h3>◈ SYSTEM DIAGNOSTICS</h3>
-
-  <div class="data">
-    CORE <b>ONLINE</b>
-  </div>
-
-  <div class="data">
-    COMMANDS <b>ACTIVE</b>
-  </div>
-
-  <div class="data">
-    LANGUAGE <b>ES-MX</b>
-  </div>
-
-  <div class="data">
-    AI ENGINE <b>OFFLINE</b>
-  </div>
-
-  <div class="data">
-    MICROPHONE <b id="micStatus">READY</b>
-  </div>
-
-  <h3 style="margin-top:25px">
-    ◈ SYSTEM ENERGY
-  </h3>
-
-  <div class="bar">
-    <div style="width:95%"></div>
-  </div>
-
-  <h3>◈ SIGNAL INTEGRITY</h3>
-
-  <div class="bar">
-    <div style="width:88%"></div>
-  </div>
-
-  <h3>◈ TACTICAL INFORMATION</h3>
-
-  <div class="command-list">
-    SYSTEM: MARK VIII<br>
-    INTERFACE: ACTIVE<br>
-    COMMAND MODE: READY<br>
-    NETWORK: BROWSER<br>
-    VOICE: AVAILABLE
-  </div>
-</section>
-
-<section class="center-section">
-
-<div class="radar">
-
-  <div class="crosshair"></div>
-  <div class="crosshair vertical"></div>
-
-  <div class="ring r1"></div>
-  <div class="ring r2"></div>
-  <div class="ring r3"></div>
-  <div class="ring r4"></div>
-  <div class="ring r5"></div>
-  <div class="ring r6"></div>
-
-  <div class="app-core">
-    <a href="https://www.roblox.com/">
-      ROBLOX
-    </a>
-
-    <a href="https://www.youtube.com/">
-      YOUTUBE
-    </a>
-
-    <a href="https://mail.google.com/">
-      GMAIL
-    </a>
-
-    <a href="https://web.whatsapp.com/">
-      WHATSAPP
-    </a>
-
-    <a href="https://www.google.com/">
-      GOOGLE
-    </a>
-
-    <a href="https://maps.google.com/">
-      MAPS
-    </a>
-  </div>
-
-</div>
-
-<div class="center-label">
-  HOLOGRAPHIC APPLICATION CONTROL
-</div>
-
-<div class="status" id="status">
-  ● AWAITING COMMAND
-</div>
-
-</section>
-
-<section class="panel right-panel">
-
-<h3>◈ APPLICATION DATABASE</h3>
-
-<div class="app-list">
-
-<a href="https://www.roblox.com/">
-  ROBLOX
-</a>
-
-<a href="https://www.youtube.com/">
-  YOUTUBE
-</a>
-
-<a href="https://mail.google.com/">
-  GMAIL
-</a>
-
-<a href="https://web.whatsapp.com/">
-  WHATSAPP
-</a>
-
-<a href="https://www.google.com/">
-  GOOGLE
-</a>
-
-<a href="https://maps.google.com/">
-  MAPS
-</a>
-
-</div>
-
-<h3 style="margin-top:25px">
-  ◈ COMMAND DATABASE
-</h3>
-
-<div class="command-list">
-  &gt; HOLA JARVIS<br>
-  &gt; CÓMO ESTÁS<br>
-  &gt; ABRE ROBLOX<br>
-  &gt; ABRE YOUTUBE<br>
-  &gt; ABRE GMAIL<br>
-  &gt; ABRE WHATSAPP<br>
-  &gt; BUSCA MINECRAFT<br>
-  &gt; QUÉ HORA ES<br>
-  &gt; QUÉ FECHA ES<br>
-  &gt; ATAJO [NOMBRE]
-</div>
-
-</section>
-
-</div>
-
-<section class="terminal">
-
-<h3>◈ JARVIS COMMUNICATION TERMINAL</h3>
-
-<div id="messages">
-  <div class="message">
-    JARVIS: Sistemas iniciados.
-    Estoy lista para recibir sus órdenes, señor.
-  </div>
-</div>
-
-<form id="chatForm">
-  <input
-    id="commandInput"
-    type="text"
-    placeholder="Escribe una orden..."
-    autocomplete="off"
-    enterkeyhint="send"
-  >
-
-  <button type="submit">
-    ➤ ENVIAR
-  </button>
-</form>
-
-<div class="controls">
-
-<button type="button" id="listenButton">
-  🎙 HABLAR
-</button>
-
-<button type="button" id="stopButton">
-  ■ DETENER
-</button>
-
-<button type="button" id="voiceButton">
-  🔊 VOZ ON
-</button>
-
-</div>
-
-<div class="notice" id="notice">
-  Sistema preparado para recibir órdenes.
-</div>
-
-</section>
-
+  <section class="panel">
+    <h2>◇ QUICK COMMANDS</h2>
+    <div class="buttons">
+      <button type="button" onclick="quick('¿Qué hora es?')">HORA</button>
+      <button type="button" onclick="quick('¿Qué fecha es hoy?')">FECHA</button>
+      <button type="button" onclick="quick('Abre WhatsApp')">WHATSAPP</button>
+      <button type="button" onclick="quick('Busca Minecraft')">MINECRAFT</button>
+    </div>
+  </section>
 </main>
 
-<footer>
-JARVIS 8.0 · MARK VIII · PERSONAL COMMAND SYSTEM
-</footer>
+<footer>JARVIS 9.0 · MARK IX · PERSONAL COMMAND SYSTEM</footer>
 
 <script>
-"use strict";
+const API = "https://jarvis-ai.gonzalezadriantaul.workers.dev";
 
-(function(){
-
-const $ = id => document.getElementById(id);
-
-const messages = $("messages");
-const input = $("commandInput");
-const status = $("status");
-const notice = $("notice");
+const chat = document.getElementById("chat");
+const form = document.getElementById("form");
+const input = document.getElementById("message");
+const sendButton = document.getElementById("send");
+const statusText = document.getElementById("status");
+const connection = document.getElementById("connection");
 
 let voiceEnabled = true;
+let busy = false;
 let recognition = null;
 
-const apps = [
-  ["roblox","Roblox","https://www.roblox.com/"],
-  ["youtube","YouTube","https://www.youtube.com/"],
-  ["gmail","Gmail","https://mail.google.com/"],
-  ["correo","Gmail","https://mail.google.com/"],
-  ["whatsapp","WhatsApp","https://web.whatsapp.com/"],
-  ["mapas","Maps","https://maps.google.com/"],
-  ["maps","Maps","https://maps.google.com/"],
-  ["google","Google","https://www.google.com/"]
-];
-
-function normalize(text){
-  return text.toLowerCase()
-    .normalize("NFD")
-    .replace(/[\u0300-\u036f]/g,"")
-    .replace(/[¿?¡!.,]/g,"")
-    .trim();
+function addMessage(who, message, isUser = false) {
+  const item = document.createElement("div");
+  item.className = "msg" + (isUser ? " user" : "");
+  item.textContent = who + ": " + message;
+  chat.appendChild(item);
+  chat.scrollTop = chat.scrollHeight;
 }
 
-function addMessage(sender,text){
-  const div = document.createElement("div");
-
-  div.className =
-    sender === "TÚ" ? "message user" : "message";
-
-  div.textContent = sender + ": " + text;
-
-  messages.appendChild(div);
-  messages.scrollTop = messages.scrollHeight;
-}
-
-function speak(text){
-
-  addMessage("JARVIS",text);
-
-  status.textContent = "● AWAITING COMMAND";
-
-  if(!voiceEnabled) return;
-
-  if(!("speechSynthesis" in window)) return;
-
+function speak(text) {
+  if (!voiceEnabled || !("speechSynthesis" in window)) return;
   speechSynthesis.cancel();
-
   const utterance = new SpeechSynthesisUtterance(text);
-
   utterance.lang = "es-MX";
-  utterance.rate = 0.95;
-  utterance.pitch = 1.15;
-
-  const voices = speechSynthesis.getVoices();
-
-  const female = voices.find(v =>
-    /^es/i.test(v.lang) &&
-    /paulina|monica|mónica|sofia|paloma|female/i.test(v.name)
-  );
-
-  const spanish = voices.find(v =>
-    /^es/i.test(v.lang)
-  );
-
-  utterance.voice = female || spanish || null;
-
+  utterance.rate = 1;
   speechSynthesis.speak(utterance);
 }
 
-function openPage(url,name){
-
-  speak("Abriendo " + name + ", señor.");
-
-  status.textContent = "◉ OPENING " + name.toUpperCase();
-
-  setTimeout(()=>{
-    window.location.assign(url);
-  },600);
+function quick(message) {
+  input.value = message;
+  form.requestSubmit();
 }
 
-function processCommand(original){
-
-  const raw = original.trim();
-
-  if(!raw) return;
-
-  addMessage("TÚ",raw);
-
-  let text = normalize(raw);
-
-  text = text.replace(/^jarvis[\s,]*/,"");
-
-  status.textContent = "◌ PROCESSING COMMAND";
-
-  const search = text.match(
-    /^(busca|buscar|search)\s+(.+)$/
-  );
-
-  if(search){
-    openPage(
-      "https://www.google.com/search?q=" +
-      encodeURIComponent(search[2]),
-      "la búsqueda de " + search[2]
-    );
-    return;
+async function checkConnection() {
+  try {
+    const response = await fetch(API);
+    if (!response.ok) throw new Error("Servidor no disponible");
+    const data = await response.json();
+    connection.textContent = data.status === "online"
+      ? "● JARVIS SERVER ONLINE"
+      : "● SERVIDOR CONECTADO";
+  } catch (error) {
+    connection.textContent = "● SIN CONEXIÓN AL SERVIDOR";
   }
-
-  const opening = text.match(
-    /^(abre|abrir|abreme|inicia|entra a|ve a)\s+(.+)$/
-  );
-
-  if(opening){
-
-    const app = apps.find(item =>
-      opening[2].includes(item[0])
-    );
-
-    if(app){
-      openPage(app[2],app[1]);
-      return;
-    }
-  }
-
-  const shortcut = text.match(/^atajo\s+(.+)$/);
-
-  if(shortcut){
-    openPage(
-      "shortcuts://run-shortcut?name=" +
-      encodeURIComponent(shortcut[1]),
-      "el atajo " + shortcut[1]
-    );
-    return;
-  }
-
-  if(text.includes("como estas")){
-    speak(
-      "Estoy muy bien, señor. " +
-      "Todos mis sistemas están funcionando. " +
-      "¿Y usted cómo se encuentra?"
-    );
-    return;
-  }
-
-  if(text.includes("hola")){
-    speak(
-      "Hola, señor. JARVIS está a su servicio."
-    );
-    return;
-  }
-
-  if(text.includes("hora")){
-    const time = new Date().toLocaleTimeString(
-      "es-MX",
-      {
-        hour:"numeric",
-        minute:"2-digit"
-      }
-    );
-
-    speak("Son las " + time + ", señor.");
-    return;
-  }
-
-  if(
-    text.includes("fecha") ||
-    text.includes("que dia")
-  ){
-    const date = new Date().toLocaleDateString(
-      "es-MX",
-      {dateStyle:"full"}
-    );
-
-    speak("Hoy es " + date + ".");
-    return;
-  }
-
-  if(text.includes("gracias")){
-    speak("Siempre a su servicio, señor.");
-    return;
-  }
-
-  if(text.includes("ayuda")){
-    speak(
-      "Puedo abrir aplicaciones, buscar en Google, " +
-      "decirle la hora y responder algunas preguntas básicas."
-    );
-    return;
-  }
-
-  speak(
-    "He recibido su mensaje, señor. " +
-    "Todavía necesito conectar inteligencia artificial " +
-    "para conversar libremente."
-  );
 }
 
-$("chatForm").addEventListener("submit",function(e){
-
-  e.preventDefault();
-
-  const text = input.value.trim();
-
-  if(!text) return;
-
+async function sendMessage(message) {
+  if (busy || !message) return;
+  busy = true;
+  sendButton.disabled = true;
+  addMessage("TÚ", message, true);
   input.value = "";
-  input.blur();
+  statusText.textContent = "JARVIS está pensando...";
 
-  processCommand(text);
-});
+  try {
+    const response = await fetch(API, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ message })
+    });
 
-$("voiceButton").addEventListener("click",function(){
+    const data = await response.json();
 
-  voiceEnabled = !voiceEnabled;
-
-  this.textContent =
-    voiceEnabled ? "🔊 VOZ ON" : "🔇 VOZ OFF";
-
-  if(!voiceEnabled && "speechSynthesis" in window){
-    speechSynthesis.cancel();
-  }
-});
-
-$("stopButton").addEventListener("click",function(){
-
-  if("speechSynthesis" in window){
-    speechSynthesis.cancel();
-  }
-
-  if(recognition){
-    try{
-      recognition.abort();
-    }catch(e){}
-  }
-
-  status.textContent = "■ STANDBY";
-});
-
-$("listenButton").addEventListener("click",function(){
-
-  const SpeechRecognition =
-    window.SpeechRecognition ||
-    window.webkitSpeechRecognition;
-
-  if(!SpeechRecognition){
-    notice.textContent =
-      "El reconocimiento de voz no está disponible. " +
-      "Utiliza el micrófono del teclado del iPad.";
-    return;
-  }
-
-  recognition = new SpeechRecognition();
-
-  recognition.lang = "es-MX";
-  recognition.continuous = false;
-
-  recognition.onstart = function(){
-    status.textContent = "◉ LISTENING";
-    $("micStatus").textContent = "LISTENING";
-  };
-
-  recognition.onresult = function(event){
-    const text = event.results[0][0].transcript;
-    processCommand(text);
-  };
-
-  recognition.onerror = function(event){
-    notice.textContent =
-      "Error del micrófono: " + event.error;
-  };
-
-  recognition.onend = function(){
-    $("micStatus").textContent = "READY";
-
-    if(status.textContent === "◉ LISTENING"){
-      status.textContent = "● AWAITING COMMAND";
+    if (!response.ok) {
+      throw new Error(
+        typeof data.details === "string"
+          ? data.details
+          : data.error || "Error del servidor"
+      );
     }
-  };
 
-  try{
-    recognition.start();
-  }catch(e){
-    notice.textContent =
-      "No se pudo iniciar el micrófono.";
+    const answer = data.reply || "No recibí una respuesta.";
+    addMessage("JARVIS", answer);
+    speak(answer);
+    statusText.textContent = "Sistema listo.";
+  } catch (error) {
+    addMessage("SISTEMA", "No pude conectar con la IA: " + error.message);
+    statusText.textContent = "Error de conexión.";
+  } finally {
+    busy = false;
+    sendButton.disabled = false;
   }
-});
-
-function updateClock(){
-
-  $("timeGauge").textContent =
-    new Date().toLocaleTimeString(
-      "es-MX",
-      {
-        hour:"2-digit",
-        minute:"2-digit"
-      }
-    );
 }
 
-updateClock();
-setInterval(updateClock,30000);
+form.addEventListener("submit", event => {
+  event.preventDefault();
+  sendMessage(input.value.trim());
+});
 
-})();
+document.getElementById("voice").onclick = () => {
+  voiceEnabled = !voiceEnabled;
+  document.getElementById("voice").textContent =
+    voiceEnabled ? "🔊 VOZ ON" : "🔇 VOZ OFF";
+  if (!voiceEnabled && "speechSynthesis" in window) {
+    speechSynthesis.cancel();
+  }
+};
+
+document.getElementById("stop").onclick = () => {
+  if ("speechSynthesis" in window) speechSynthesis.cancel();
+  if (recognition) recognition.stop();
+  statusText.textContent = "Voz detenida.";
+};
+
+const SpeechRecognition =
+  window.SpeechRecognition || window.webkitSpeechRecognition;
+
+if (SpeechRecognition) {
+  document.getElementById("mic").onclick = () => {
+    try {
+      if (recognition) recognition.abort();
+      recognition = new SpeechRecognition();
+      recognition.lang = "es-MX";
+      recognition.interimResults = false;
+      recognition.onresult = event => {
+        const words = event.results[0][0].transcript;
+        sendMessage(words);
+      };
+      recognition.onerror = event => {
+        statusText.textContent = "Micrófono: " + event.error;
+      };
+      recognition.start();
+      statusText.textContent = "Escuchando...";
+    } catch (error) {
+      statusText.textContent = "No se pudo iniciar el micrófono.";
+    }
+  };
+} else {
+  document.getElementById("mic").onclick = () => {
+    statusText.textContent =
+      "Este navegador no admite reconocimiento de voz.";
+  };
+}
+
+addMessage("JARVIS", "Hola, señor. JARVIS MARK IX a su servicio.");
+checkConnection();
 </script>
-
 </body>
 </html>
